@@ -1,0 +1,24 @@
+{
+  "name": "oauth-api",
+  "version": "1.0.0",
+  "description": "A reusable authentication API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samogorm/oauth-api.git"
+  },
+  "keywords": [
+    "auth",
+    "api",
+    "oauth"
+  ],
+  "author": "@samogorm",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samogorm/oauth-api/issues"
+  },
+  "homepage": "https://github.com/samogorm/oauth-api#readme"
+}
