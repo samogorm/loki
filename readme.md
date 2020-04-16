@@ -3,6 +3,17 @@
 ## Description
 A re-usable authentication API that allows a user to submit their email and password and returns  a valid access token.
 
+## Get Started With This Repo
+
+1. Clone this repo `git clone https://github.com/samogorm/oauth-api.git`.
+2. Run `npm install`.
+3. Add a *.env* file in the root directory. 
+4. Copy the enviroment variables from *.env.example* into *.env*.
+5. Update the environment variables if needed.
+6. Run `npm run start:dev`.
+7. Open browser and go to http://localhost:5000/api/v1/test.
+8. If you can see a JSON response message saying "Success!" then you are all up and running.
+
 ## Tech Stack
 * GraphQL
 * Apollo
