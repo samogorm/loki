@@ -4,12 +4,17 @@
     "strict": true,
     "baseUrl": "./",
     "outDir": "build",
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "removeComments": true,
     "experimentalDecorators": true,
     "target": "es6",
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "esModuleInterop": true,
     "types": [
       "node"
     ],
