@@ -22,9 +22,12 @@ A re-usable authentication API that allows a user to submit their email and pass
 * JWT (JSON Web Tokens)
 
 ## Key Features
+* Create user
 * Login via email and password
 * Reset password
 * Update details i.e Name, email, password
+* Create Client
+* Update Client
 
 ## Additional Features
 * Login via Facebook
