@@ -110,16 +110,3 @@ Needs discussion
 * client: Client
 * createdAt: Timestamp
 * updatedAt: Timestamp
-
-### First Steps
-- Create GitHub repository
-- Install dependencies:
-	- GraphQL
-	- Express
-	- Apollo Express
-	- JWT
-	- dotenv
-- Set up TypeScript support
-- Set up environment variables
-- Set up project structure
-- Set up routing
