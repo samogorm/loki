@@ -6,17 +6,16 @@ A re-usable authentication API that allows a user to submit their email and pass
 ## Get Started With This Repo
 
 1. Clone this repo `git clone https://github.com/samogorm/oauth-api.git`.
-2. Run `npm install`.
-3. Add a *.env* file in the root directory. 
-4. Copy the enviroment variables from *.env.example* into *.env*.
-5. Update the environment variables if needed.
-6. Run `npm run start:dev`.
-7. Open browser and go to http://localhost:5000/api/v1/test.
-8. If you can see a JSON response message saying "Success!" then you are all up and running.
+2. cd in to the cloned directory.
+3. Run `npm install`.
+4. Add a *.env* file in the root directory. 
+5. Copy the enviroment variables from *.env.example* into *.env*.
+6. Update the environment variables if needed.
+7. Run `npm run start:dev`.
+8. Open browser and go to http://localhost:5000/api/v1/test.
+9. If you can see a JSON response message saying "Success!" then you are all up and running.
 
 ## Tech Stack
-* GraphQL
-* Apollo
 * MongoDB
 * Express
 * TypeScript
@@ -31,15 +30,16 @@ A re-usable authentication API that allows a user to submit their email and pass
 * Login via Facebook
 * Login via Twitter
 
-## Main Methods
-1. login()
-2. createToken()
-3. saveToken()
-4. expireToken()
-5. resetPassword()
-6. updateUserDetails()
+## Main Methodss
+1. createUser()
+2. login()
+3. createToken()
+4. saveToken()
+5. expireToken()
+6. resetPassword()
+7. updateUserDetails()
 
-### 1. login()
+### 2. login()
 * Grab ‘email’ and ‘password’ from request params
 * Check that the user exists
 * Check that the user is active
@@ -60,20 +60,20 @@ A re-usable authentication API that allows a user to submit their email and pass
 * If any other errors occur:
 	* Return 500 with server error message
 
-### 2. createToken()
+### 3. createToken()
 * Use JWT to create a new token
 
-### 3. saveToken()
+### 4. saveToken()
 * Save the token to the database
 
-### 4. expireToken()
+### 5. expireToken()
 * Check the token expiry date has passed
 * set the expired field to true
 
-### 5. resetPassword()
+### 6. resetPassword()
 Needs discussion
 
-### 6. updateUserDetails()
+### 7. updateUserDetails()
 Needs discussion
 
 ## Database Schema
@@ -103,8 +103,9 @@ Needs discussion
 * createdAt: Timestamp
 * updatedAt: Timestamp
 
-### LoginSession
+### UserSession
 * id: UID
+* type: String
 * user: User
 * token: Token
 * client: Client
