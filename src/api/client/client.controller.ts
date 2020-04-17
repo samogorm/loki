@@ -27,22 +27,32 @@ class ClientController {
     });
   }
 
+  static findById = async (data: any) => {
+
+  }
+
   static getAll = async (data: any) => {
-    const { req, res } = data;
+    const { res } = data;
     let clients: any = [];
+    let error: boolean = false;
+    let errorMessage: any = null;
   
     await Client.find()
-      .then(data => clients = data);
+      .then(data => clients = data)
+      .catch(err => {
+        error = true;
+        errorMessage = err;
+      });
   
-    if (clients) {
+    if (!error) {
       return res.status(200).json({
         message: 'Successfully retrieved the Clients.',
         data: clients
       });
-    }
+    } 
 
     return res.status(500).json({
-      message: 'There was an issue with this request.',
+      message: errorMessage,
       data: null
     });
   }
