@@ -3,6 +3,9 @@
 ## Description
 A re-usable authentication API that allows a user to submit their email and password and returns  a valid access token.
 
+## Minimum Requirements
+* NodeJS 10.16.0+
+
 ## Get Started With This Repo
 
 1. Clone this repo `git clone https://github.com/samogorm/oauth-api.git`.
