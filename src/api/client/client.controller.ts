@@ -27,7 +27,7 @@ class ClientController {
     });
   }
 
-  static findById = async (data: any) => {
+  static get = async (data: any) => {
     const { req, res } = data;
     const clientId = req.params.client_id;
     let error: boolean = false;
@@ -71,6 +71,35 @@ class ClientController {
         data: clients
       });
     } 
+
+    return res.status(500).json({
+      message: errorMessage,
+      data: null
+    });
+  }
+
+  static update = async (data: any) => {
+    const { req, res } = data;
+    const clientId = req.params.client_id;
+  
+    let error: boolean = false;
+    let errorMessage: any = null;
+
+    const client = await Client.findOneAndUpdate({ _id: clientId }, req.query, (err: any, updatedClient: any) => {
+      if (err) {
+        error = true;
+        errorMessage = err;
+      }
+
+      return updatedClient;
+    });
+ 
+    if (!error) {
+      return res.status(200).json({
+        message: 'Successfully updated the Client.',
+        data: client
+      });
+    }
 
     return res.status(500).json({
       message: errorMessage,
