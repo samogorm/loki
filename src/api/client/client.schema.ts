@@ -2,6 +2,14 @@ import mongoose, { Schema } from 'mongoose';
 import IClient from './client.interface';
 
 const ClientSchema: Schema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  url: {
+    type: String,
+    required: true
+  },
   secret: {
     type: String,
     required: true

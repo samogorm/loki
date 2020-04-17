@@ -20,7 +20,7 @@ class Server {
     app.use(bodyParser.json());
     app.use('/api/v1', router);
 
-    mongoose.connect(process.env.MONGO_LOCAL_CONN_URL || '', { useNewUrlParser: true, useUnifiedTopology: true });
+    mongoose.connect(`${process.env.MONGO_LOCAL_CONN_URL}${process.env.MONGO_DB}` || '', { useNewUrlParser: true, useUnifiedTopology: true });
 
     app.listen(port);
     console.log(`${this.SERVER_STARTED} ${port}`);
