@@ -15,6 +15,9 @@ A re-usable authentication API that allows a user to submit their email and pass
 8. Open browser and go to http://localhost:5000/api/v1/test.
 9. If you can see a JSON response message saying "Success!" then you are all up and running.
 
+## POSTMAN Collection
+To test the API endpoints, I have created a [collection](https://www.getpostman.com/collections/0598f505914cab337147) that you can view. 
+
 ## Tech Stack
 * MongoDB
 * Express
@@ -100,6 +103,8 @@ Needs discussion
 
 ### Client
 * id: UID
+* name: String,
+* url: String,
 * secret: String
 * grantType: String
 * active: Boolean
