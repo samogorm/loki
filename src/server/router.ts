@@ -5,10 +5,8 @@ const router = express.Router();
 
 router.route('/test').get(async (req, res) => res.status(200).json({ message: `Success!` }));
 
+// Clients
 router.route('/clients').post(async (req, res) => ClientController.create({ req, res }));
-
-// router.route('/clients').get(async (req, res) => {
-  
-// });
+router.route('/clients').get(async (req, res) => ClientController.getAll({ req, res }));
 
 export default router;
