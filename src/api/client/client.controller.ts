@@ -28,7 +28,28 @@ class ClientController {
   }
 
   static findById = async (data: any) => {
+    const { req, res } = data;
+    const clientId = req.params.client_id;
+    let error: boolean = false;
+    let errorMessage: any = null;
+    
+    const client = await Client.findById(clientId)
+      .catch(err => {
+        error = true;
+        errorMessage = err;
+      });
 
+    if (!error) {
+      return res.status(200).json({
+        message: 'Successfully retrieved the Client.',
+        data: client
+      });
+    }
+
+    return res.status(500).json({
+      message: errorMessage,
+      data: null
+    });
   }
 
   static getAll = async (data: any) => {
