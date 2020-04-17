@@ -1,13 +1,11 @@
 import IClient from './client.interface';
 import Client from './client.schema';
 
-class ClientController {
-
-  static create = (data: any) => {
+const ClientController = {
+  create: (data: any) => {
     const { req, res } = data;
-    const { name, url, secret, grantType } = req.query;
 
-    const client = new Client({ name, url, secret, grantType });
+    const client = new Client(req.body);
     
     return client.save(function (err: any, client: IClient) {
       const success = err ? false : true;
@@ -25,9 +23,9 @@ class ClientController {
         data: null
       });
     });
-  }
+  },
 
-  static get = async (data: any) => {
+  get: async (data: any) => {
     const { req, res } = data;
     const clientId = req.params.client_id;
     let error: boolean = false;
@@ -50,9 +48,9 @@ class ClientController {
       message: errorMessage,
       data: null
     });
-  }
+  },
 
-  static getAll = async (data: any) => {
+  getAll: async (data: any) => {
     const { res } = data;
     let clients: any = [];
     let error: boolean = false;
@@ -76,9 +74,9 @@ class ClientController {
       message: errorMessage,
       data: null
     });
-  }
+  },
 
-  static update = async (data: any) => {
+  update: async (data: any) => {
     const { req, res } = data;
     const clientId = req.params.client_id;
   
