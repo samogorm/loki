@@ -1,19 +1,19 @@
 import mongoose, { Schema } from 'mongoose';
-import IToken from './token.interface';
+import IAuthToken from './auth_token.interface';
 import UserSchema from '../user/User.schema';
 import ClientSchema from '../client/client.schema';
 
-const TokenSchema: Schema = new Schema({
+const AuthTokenSchema: Schema = new Schema({
   token: {
     type: String,
     required: true
   },
   user: {
-    type: UserSchema,
+    type: Object,
     required: true
   },
   client: {
-    type: ClientSchema,
+    type: Object,
     required: true
   },
   expired: {
@@ -34,4 +34,4 @@ const TokenSchema: Schema = new Schema({
   }
 });
 
-export default mongoose.model<IToken>('Token', TokenSchema);
+export default mongoose.model<IAuthToken>('AuthToken', AuthTokenSchema);

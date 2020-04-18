@@ -1,10 +1,14 @@
 import express from 'express';
 import Client from './../api/client/client.controller';
 import User from './../api/user/user.controller';
+import AuthController from './../api/auth/auth.controller';
 
 const router = express.Router();
 
 router.route('/test').get(async (req, res) => res.status(200).json({ message: `Success!` }));
+
+// Auth
+router.route('/oauth/token').post(async (req, res) => AuthController.login({ req, res }));
 
 // Clients
 router.route('/clients').post(async (req, res) => Client.create({ req, res }));

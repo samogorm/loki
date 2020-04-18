@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 
-interface IToken extends Document {
+interface IAuthToken extends Document {
   token: string;
   user: object;
   client: object;
@@ -10,4 +10,4 @@ interface IToken extends Document {
   updatedAt: string;
 }
 
-export default IToken;
+export default IAuthToken;

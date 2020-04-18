@@ -1,5 +1,6 @@
 import IUser from './user.interface';
 import User from './user.schema';
+import UserModel from './user.model';
 import Encryption from './../../helpers/encryption';
 
 const UserController = {
@@ -8,7 +9,7 @@ const UserController = {
     const user = new User(req.body);
     
     user.password = Encryption.encrypt(req.body.password);
-    const emailTaken = await UserController.checkEmailExists(req.body.email);
+    const emailTaken = await UserModel.checkEmailExists(req.body.email);
 
     if (emailTaken) {
       return res.status(400).json({
@@ -33,14 +34,6 @@ const UserController = {
         data: null
       });
     });
-  },
-
-  checkEmailExists: async (email: string) => {
-    let emailTaken;
-    await User.findOne({ email: email })
-      .then(data => emailTaken = data);
-
-    return emailTaken
   },
 
   get: async (data: any) => {

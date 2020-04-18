@@ -1,11 +1,14 @@
 import IClient from './client.interface';
 import Client from './client.schema';
+import Encryption from './../../helpers/encryption';
 
 const ClientController = {
   create: (data: any) => {
     const { req, res } = data;
 
     const client = new Client(req.body);
+
+    client.secret = Encryption.encrypt(req.body.secret);
     
     return client.save(function (err: any, client: IClient) {
       const success = err ? false : true;
