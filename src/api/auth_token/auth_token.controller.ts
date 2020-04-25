@@ -111,7 +111,7 @@ const AuthTokenController = {
     };
 
     const secret = process.env.JWT_SECRET;
-    const token = jwt.sign(payload, 'test', options);
+    const token = jwt.sign(payload, `${secret}`, options);
 
     return token;
   },
@@ -128,7 +128,7 @@ const AuthTokenController = {
       };
 
       try {
-        result = jwt.verify(token, 'test', options);
+        result = jwt.verify(token, `${process.env.JWT_SECRET}`, options);
         req.decoded = result;
         next();
       } catch (err) {
