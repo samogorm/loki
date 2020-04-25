@@ -94,7 +94,7 @@ const UserController = {
     let error: boolean = false;
     let errorMessage: any = null;
 
-    const user = await User.findOneAndUpdate({ _id: userId }, req.query, (err: any, doc: any) => {
+    const user = await User.findOneAndUpdate({ _id: userId }, req.body, (err: any, doc: any) => {
       if (err) {
         error = true;
         errorMessage = err;

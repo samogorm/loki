@@ -86,7 +86,7 @@ const ClientController = {
     let error: boolean = false;
     let errorMessage: any = null;
 
-    const client = await Client.findOneAndUpdate({ _id: clientId }, req.query, (err: any, updatedClient: any) => {
+    const client = await Client.findOneAndUpdate({ _id: clientId }, req.body, (err: any, updatedClient: any) => {
       if (err) {
         error = true;
         errorMessage = err;
