@@ -75,11 +75,9 @@ const AuthTokenController = {
   update: async (data: any) => {
     const { req, res } = data;
     const tokenId = req.params.token_id;
-    console.log('herrrrreee');
 
     let error: boolean = false;
     let errorMessage: any = null;
-    console.log(req.body)
 
     const token = await AuthToken.findOneAndUpdate({ _id: tokenId }, req.body, (err: any, updatedToken: any) => {
       if (err) {
