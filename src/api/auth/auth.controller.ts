@@ -58,7 +58,28 @@ const AuthController = {
       message: 'Unauthorised.',
       data: null
     });
-  }
+  },
+  checkUserIsAdmin: (req: any, res: any, next: any) => {
+    const authorizationHeader = req.headers.authorization;
+    let result: any = '';
+    if (authorizationHeader) {
+      const token = req.headers.authorization.split(' ')[1];
+
+      AuthToken.find({ token: token })
+      .then((token: any) => {
+        console.log(token[0]);
+        if(token[0].user.permissions.includes('Admin') && token[0].user.active) {
+          next();
+        } else {
+          result = { 
+            error: `Authentication error. Insufficient permissions.`,
+            status: 401
+          };
+          res.status(401).send(result);
+        }
+      }).catch((err: any) => res.send(err));
+    }
+  },
 }
 
 export default AuthController;

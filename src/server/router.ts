@@ -14,27 +14,27 @@ router.route('/test').get(async (req, res) => res.status(200).json({ message: `S
 router.route('/oauth/token').post(async (req, res) => AuthController.login({ req, res }));
 
 // Clients
-router.route('/clients').post(async (req, res) => Client.create({ req, res }));
-router.route('/clients').get(async (req, res) => Client.getAll({ req, res }));
-router.route('/clients/:client_id').get(async (req, res) => Client.get({ req, res  }));
-router.route('/clients/:client_id').put(async (req, res) => Client.update({ req, res }));
+router.route('/clients').post(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => Client.create({ req, res }));
+router.route('/clients').get(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => Client.getAll({ req, res }));
+router.route('/clients/:client_id').get(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => Client.get({ req, res  }));
+router.route('/clients/:client_id').put(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => Client.update({ req, res }));
 
 // Users
 router.route('/users').post(async (req, res) => User.create({ req, res }));
-router.route('/users').get(async (req, res) => User.getAll({ req, res }));
+router.route('/users').get(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => User.getAll({ req, res }));
 router.route('/users/:user_id').get(async (req, res) => User.get({ req, res }));
 router.route('/users/:user_id').put(async (req, res) => User.update({ req, res }));
 
 // Permission
-router.route('/permissions').post(async (req, res) => Permission.create({ req, res }));
-router.route('/permissions').get(async (req, res) => Permission.getAll({ req, res }));
-router.route('/permissions/:permission_id').get(async (req, res) => Permission.get({ req, res }));
-router.route('/permissions/:permission_id').put(async (req, res) => Permission.update({ req, res }));
+router.route('/permissions').post(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => Permission.create({ req, res }));
+router.route('/permissions').get(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => Permission.getAll({ req, res }));
+router.route('/permissions/:permission_id').get(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => Permission.get({ req, res }));
+router.route('/permissions/:permission_id').put(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => Permission.update({ req, res }));
 
 // Auth Token
-router.route('/authtokens').get(async (req, res) => AuthToken.getAll({ req, res }));
-router.route('/authtokens/:token_id').get(async (req, res) => AuthToken.get({ req, res }));
-router.route('/authtokens/:token_id').put(async (req, res) => AuthToken.update({ req, res }));
+router.route('/authtokens').get(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => AuthToken.getAll({ req, res }));
+router.route('/authtokens/:token_id').get(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => AuthToken.get({ req, res }));
+router.route('/authtokens/:token_id').put(AuthToken.validateJWT, AuthController.checkUserIsAdmin, async (req, res) => AuthToken.update({ req, res }));
 
 // Login Session
 router.route('/loginsessions').get(async (req, res) => LoginSession.getAll({ req, res }));
