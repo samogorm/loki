@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 
-const algorithm = 'aes-256-cbc';
-const password = '3zTvzr3p67VC61jmV54rIYu1545x4TlY'; // Todo: move to an env file
+const algorithm = `${process.env.ENCRYPTION_ALGORITHM}`;
+const password = `${process.env.ENCRYPTION_PASSWORD}`;
 
 const Encryption = {
   encrypt: function (text: string) {
