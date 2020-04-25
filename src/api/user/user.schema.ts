@@ -15,6 +15,10 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: true
   },
+  permissions: {
+    type: Array,
+    default: [],
+  },
   active: {
     type: Boolean,
     default: true,
