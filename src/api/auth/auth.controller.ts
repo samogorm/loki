@@ -1,5 +1,6 @@
 import UserModel from './../user/user.model';
 import ClientModel from './../client/client.model';
+import AuthTokenModel from './../auth_token/auth_token.model';
 import Encryption from '../../helpers/encryption';
 import AuthTokenController from '../auth_token/auth_token.controller';
 
@@ -15,6 +16,7 @@ const AuthController = {
 
     if (passwordMatch && isClientValidated) {
       // TODO: check if user already has valid token
+      // const existingToken = AuthTokenModel.findBy('user', )
       const token = AuthTokenController.generateJWT(user.email);
       const today = new Date();
       const expiresAt = today.getDate() + 3;

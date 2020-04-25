@@ -107,7 +107,6 @@ const ClientController = {
       data: null
     });
   }
-
 }
 
 export default ClientController;

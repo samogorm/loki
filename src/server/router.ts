@@ -1,6 +1,7 @@
 import express from 'express';
 import Client from './../api/client/client.controller';
 import User from './../api/user/user.controller';
+import AuthToken from './../api/auth_token/auth_token.controller';
 import AuthController from './../api/auth/auth.controller';
 
 const router = express.Router();
@@ -21,5 +22,10 @@ router.route('/users').post(async (req, res) => User.create({ req, res }));
 router.route('/users').get(async (req, res) => User.getAll({ req, res }));
 router.route('/users/:user_id').get(async (req, res) => User.get({ req, res }));
 router.route('/users/:user_id').put(async (req, res) => User.update({ req, res }));
+
+// Auth Token
+router.route('/authtokens').get(async (req, res) => AuthToken.getAll({ req, res }));
+router.route('/authtokens/:token_id').get(async (req, res) => AuthToken.get({ req, res }));
+router.route('/authtokens/:token_id').put(async (req, res) => AuthToken.update({ req, res }));
 
 export default router;

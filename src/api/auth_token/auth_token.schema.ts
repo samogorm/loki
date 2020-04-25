@@ -1,7 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
 import IAuthToken from './auth_token.interface';
-import UserSchema from '../user/User.schema';
-import ClientSchema from '../client/client.schema';
 
 const AuthTokenSchema: Schema = new Schema({
   token: {

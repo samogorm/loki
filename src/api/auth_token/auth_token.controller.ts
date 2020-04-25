@@ -21,8 +21,86 @@ const AuthTokenController = {
     });
   },
 
-  hasTokenExpired: () => {
-    // TODO: 
+  get: async (data: any) => {
+    const { req, res } = data;
+    const tokenId = req.params.token_id;
+    let error: boolean = false;
+    let errorMessage: any = null;
+
+    const token = await AuthToken.findById(tokenId)
+      .catch(err => {
+        error = true;
+        errorMessage = err;
+      });
+
+    if (!error) {
+      return res.status(200).json({
+        message: 'Successfully retrieved the Auth Token.',
+        data: token
+      });
+    }
+
+    return res.status(500).json({
+      message: errorMessage,
+      data: null
+    });
+  },
+
+  getAll: async (data: any) => {
+    const { res } = data;
+    let tokens: any = [];
+    let error: boolean = false;
+    let errorMessage: any = null;
+
+    await AuthToken.find()
+      .then(data => tokens = data)
+      .catch(err => {
+        error = true;
+        errorMessage = err;
+      });
+
+    if (!error) {
+      return res.status(200).json({
+        message: 'Successfully retrieved the Auth Token.',
+        data: tokens
+      });
+    }
+
+    return res.status(500).json({
+      message: errorMessage,
+      data: null
+    });
+  },
+
+  update: async (data: any) => {
+    const { req, res } = data;
+    const tokenId = req.params.token_id;
+    console.log('herrrrreee');
+
+    let error: boolean = false;
+    let errorMessage: any = null;
+    console.log(req.body)
+
+    const token = await AuthToken.findOneAndUpdate({ _id: tokenId }, req.body, (err: any, updatedToken: any) => {
+      if (err) {
+        error = true;
+        errorMessage = err;
+      }
+
+      return updatedToken;
+    });
+
+    if (!error) {
+      return res.status(200).json({
+        message: 'Successfully updated the AuthToken.',
+        data: token
+      });
+    }
+
+    return res.status(500).json({
+      message: errorMessage,
+      data: null
+    });
   },
 
   generateJWT: (email: string) => {

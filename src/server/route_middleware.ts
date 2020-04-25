@@ -1,5 +1,4 @@
 import express from 'express';
-
 class RouteMiddleware {
   logRoute = (request: express.Request, response: express.Response, next: Function) => {
     console.log('REQUEST: ');
