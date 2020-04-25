@@ -4,6 +4,7 @@ import User from './../api/user/user.controller';
 import AuthToken from './../api/auth_token/auth_token.controller';
 import LoginSession from './../api/login_session/login_session.controller';
 import AuthController from './../api/auth/auth.controller';
+import AuthTokenModel from './../api/auth_token/auth_token.model';
 
 const router = express.Router();
 
