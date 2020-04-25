@@ -59,7 +59,8 @@ const AuthController = {
       data: null
     });
   },
-  checkUserIsAdmin: (req: any, res: any, next: any) => {
+
+  isAdmin: (req: any, res: any, next: any) => {
     const authorizationHeader = req.headers.authorization;
     let result: any = '';
     if (authorizationHeader) {
@@ -72,6 +73,29 @@ const AuthController = {
         } else {
           result = { 
             error: `Authentication error. Insufficient permissions.`,
+            status: 401
+          };
+          res.status(401).send(result);
+        }
+      }).catch((err: any) => res.send(err));
+    }
+  },
+
+  isAuth: (req: any, res: any, next: any) => {
+    const authorizationHeader = req.headers.authorization;
+    const paramId = req.params.user_id;
+  
+    let result: any = '';
+    if (authorizationHeader) {
+      const token = req.headers.authorization.split(' ')[1];
+
+      AuthToken.find({ token: token })
+      .then((token: any) => {
+        if(token[0].user._id === paramId && token[0].user.active) {
+          next();
+        } else {
+          result = { 
+            error: `Authentication error.`,
             status: 401
           };
           res.status(401).send(result);
