@@ -1,8 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
 import ILoginSession from './login_session.interface';
-import UserSchema from '../user/User.schema';
-import ClientSchema from '../client/client.schema';
-import TokenSchema from '../token/token.schema';
 
 const LoginSessionSchema: Schema = new Schema({
   type: {
@@ -10,15 +7,15 @@ const LoginSessionSchema: Schema = new Schema({
     required: true
   },
   user: {
-    type: UserSchema,
+    type: Object,
     required: true
   },
   client: {
-    type: ClientSchema,
+    type: Object,
     required: true
   },
   token: {
-    type: TokenSchema,
+    type: Object,
     required: true
   },
   createdAt: {

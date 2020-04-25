@@ -3,6 +3,7 @@ import ClientModel from './../client/client.model';
 import AuthTokenModel from './../auth_token/auth_token.model';
 import Encryption from '../../helpers/encryption';
 import AuthTokenController from '../auth_token/auth_token.controller';
+import LoginSessionController from '../login_session/login_session.controller';
 
 const AuthController = {
   login: async (data: any) => {
@@ -12,6 +13,7 @@ const AuthController = {
     const client = await ClientModel.findBy('_id', req.body.clientId);
 
     const passwordMatch = Encryption.decrypt(password) === Encryption.decrypt(user.password);
+    console.log(passwordMatch);
     const isClientValidated = client ? await ClientModel.validate(client, req.body.clientSecret) : false;
 
     if (passwordMatch && isClientValidated) {
@@ -22,6 +24,15 @@ const AuthController = {
       const expiresAt = today.getDate() + 3;
 
       AuthTokenController.create({ token, client, user, expiresAt });
+
+      const loginSession = {
+        type: 'Login',
+        user,
+        client,
+        token
+      };
+
+      LoginSessionController.create(loginSession);
 
       return res.status(200).json({
         message: 'Successfully authenticated.',
