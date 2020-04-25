@@ -3,6 +3,7 @@ import Client from './../api/client/client.controller';
 import User from './../api/user/user.controller';
 import AuthToken from './../api/auth_token/auth_token.controller';
 import AuthController from './../api/auth/auth.controller';
+import AuthTokenModel from './../api/auth_token/auth_token.model';
 
 const router = express.Router();
 
@@ -28,4 +29,6 @@ router.route('/authtokens').get(async (req, res) => AuthToken.getAll({ req, res 
 router.route('/authtokens/:token_id').get(async (req, res) => AuthToken.get({ req, res }));
 router.route('/authtokens/:token_id').put(async (req, res) => AuthToken.update({ req, res }));
 
+// tests
+//router.route('/hasTokenExpired').put(async (req, res) => AuthTokenModel.hasTokenExpired(res, `${req.query.token}`));
 export default router;

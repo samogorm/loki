@@ -107,7 +107,7 @@ const AuthTokenController = {
     const payload = { user: email };
     const options = {
       expiresIn: `${process.env.JWT_EXPIRY}d`,
-      issuer: process.env.JWT_ISSUER
+      issuer: `${process.env.JWT_ISSUER}`
     };
 
     const secret = process.env.JWT_SECRET;

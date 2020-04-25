@@ -1,5 +1,6 @@
 import AuthToken from './auth_token.schema';
 import IAuthToken from './auth_token.interface';
+import { ftruncate } from 'fs';
 
 const AuthTokenModel = {
   findBy: async (key: any, value: any) => {
@@ -15,12 +16,24 @@ const AuthTokenModel = {
     return result;
   },
 
-  hasTokenExpired: (token: string) => {
-    // TODO: 
-    return AuthToken.find({ token: token }, function (err: any, authToken: IAuthToken) {
-      console.log(authToken);
+  hasTokenExpired: async (token: string) => {
+    const now: Date = new Date();
+    let foundToken: any;
+    
+    await AuthToken.findOne({ token: token })
+    .then(authToken => foundToken = authToken)
+    .catch(err => {
+      return {
+        hasExpired: true,
+        token: null
+      };
     });
-  },
+
+    return {
+      hasExpired: foundToken.expiresAt <= now,
+      token: foundToken
+    };
+  }
 };
 
 export default AuthTokenModel;

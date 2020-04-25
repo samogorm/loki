@@ -19,7 +19,8 @@ const AuthController = {
       // const existingToken = AuthTokenModel.findBy('user', )
       const token = AuthTokenController.generateJWT(user.email);
       const today = new Date();
-      const expiresAt = today.getDate() + 3;
+      const expiresAt = today.setDate(today.getDate() + 3)
+      console.log(expiresAt);
 
       AuthTokenController.create({ token, client, user, expiresAt });
 
