@@ -18,16 +18,11 @@ const AuthController = {
 
     if (passwordMatch && isClientValidated) {
       let existingToken: any = null;
-      const findToken = await AuthToken.findOne({ user: user}, {}, { sort: { 'created_at': 0 } }, function async(err: any, document: any) {
-        if (err) {
-          return null;
-        }
-
-        if (document) {
-          return existingToken = document.token;
-        } else {
-          return existingToken = null;
-        }
+      await AuthToken.findOne({ user: user}, {}, { sort: { 'created_at': 0 } }, function async(err: any, document: any) {
+        if (err) return null;
+  
+        if (document) return existingToken = document.token;
+        else return existingToken = null;
       });
 
       if (existingToken) {
