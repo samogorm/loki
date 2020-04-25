@@ -16,7 +16,7 @@ const AuthTokenModel = {
     return result;
   },
 
-  hasTokenExpired: async (token: string) => {
+  hasTokenExpired: async (token: any) => {
     const now: Date = new Date();
     let foundToken: any;
     
