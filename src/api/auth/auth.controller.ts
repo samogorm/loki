@@ -67,7 +67,6 @@ const AuthController = {
 
       AuthToken.find({ token: token })
       .then((token: any) => {
-        console.log(token[0]);
         if(token[0].user.permissions.includes('Admin') && token[0].user.active) {
           next();
         } else {
