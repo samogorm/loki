@@ -8,8 +8,6 @@ import AuthController from './../api/auth/auth.controller';
 
 const router = express.Router();
 
-router.route('/test').get(async (req, res) => res.status(200).json({ message: `Success!` }));
-
 // Auth
 router.route('/oauth/token').post(async (req, res) => AuthController.login({ req, res }));
 

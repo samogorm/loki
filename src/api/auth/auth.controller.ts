@@ -24,13 +24,13 @@ const AuthController = {
         if (document) return existingToken = document.token;
         else return existingToken = null;
       });
-
+     
       if (existingToken) {
         existingToken = await AuthTokenModel.hasTokenExpired(existingToken);
       }
       
       let token: any = null;
-      if (existingToken.hasExpired) {
+      if (existingToken === null || existingToken.hasExpired) {
         token = AuthTokenController.generateJWT(user.email);
         const today = new Date();
         const expiresAt = today.setDate(today.getDate() + 3)
@@ -49,7 +49,8 @@ const AuthController = {
       return res.status(200).json({
         message: 'Successfully authenticated.',
         data: {
-          token: token ? token :  existingToken.token.token
+          token: token ? token :  existingToken.token.token,
+          expiresAt: token ? token.expiresAt : existingToken.token.expiresAt,
         }
       });
     }
