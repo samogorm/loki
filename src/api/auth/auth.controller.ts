@@ -20,15 +20,15 @@ const AuthController = {
       let existingToken: any = null;
       await AuthToken.findOne({ user: user}, {}, { sort: { 'created_at': 0 } }, function async(err: any, document: any) {
         if (err) return null;
-  
+
         if (document) return existingToken = document.token;
         else return existingToken = null;
       });
-     
+
       if (existingToken) {
         existingToken = await AuthTokenModel.hasTokenExpired(existingToken);
       }
-      
+
       let token: any = null;
       if (existingToken === null || existingToken.hasExpired) {
         token = AuthTokenController.generateJWT(user.email);
@@ -65,14 +65,14 @@ const AuthController = {
     const authorizationHeader = req.headers.authorization;
     let result: any = '';
     if (authorizationHeader) {
-      const token = req.headers.authorization.split(' ')[1];
+      const authToken = req.headers.authorization.split(' ')[1];
 
-      AuthToken.find({ token: token })
+      AuthToken.find({ token: authToken })
       .then((token: any) => {
         if(token[0].user.permissions.includes('Admin') && token[0].user.active) {
           next();
         } else {
-          result = { 
+          result = {
             error: `Authentication error. Insufficient permissions.`,
             status: 401
           };
@@ -84,18 +84,17 @@ const AuthController = {
 
   isAuth: (req: any, res: any, next: any) => {
     const authorizationHeader = req.headers.authorization;
-    const paramId = req.params.user_id;
-  
+
     let result: any = '';
     if (authorizationHeader) {
       const token = req.headers.authorization.split(' ')[1];
 
       AuthToken.find({ token: token })
       .then((token: any) => {
-        if(token[0].user._id === paramId && token[0].user.active) {
+        if(token[0].user.active) {
           next();
         } else {
-          result = { 
+          result = {
             error: `Authentication error.`,
             status: 401
           };

@@ -7,7 +7,7 @@ const UserController = {
   create: async (data: any) => {
     const { req, res } = data;
     const user = new User(req.body);
-    
+
     user.password = Encryption.encrypt(req.body.password);
     const emailTaken = await UserModel.checkEmailExists(req.body.email);
 
