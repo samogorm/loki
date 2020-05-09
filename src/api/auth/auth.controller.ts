@@ -1,6 +1,7 @@
 import { add } from 'date-fns'; 
 
 import { sendEmail } from './../../helpers';
+import User from './../user/user.schema';
 import UserModel from './../user/user.model';
 import ClientModel from './../client/client.model';
 import AuthTokenModel from './../auth_token/auth_token.model';
@@ -75,14 +76,59 @@ const AuthController = {
     if (user && client) {
       const token = AuthTokenController.generateJWT(email);
       const today = new Date();
-      const expiresAt = add(today, { minutes: 30 });
+      const expiresAt = add(today, { minutes: 90 });
       const firstname = user.name.split(" ")[0];
 
       AuthTokenController.create({ token, client, user, type: 'Reset Password', expiresAt });
       sendEmail(`${client.name}`, email, 'Reset Password', 'reset_password', { name: firstname, app: client.name, token });
     }
 
-    return res.status(200);
+    return res.status(200).json({
+      message: `An email with a reset token will be sent to ${email}, if it exists.`
+    });
+  },
+
+  updatePassword: async (data: any) => {
+    const { req, res } = data;
+    const resetToken: any = req.body.reset_token;
+    const newPassword: string = req.body.password;
+
+    const token: any = await AuthToken.findOne({ token: resetToken, type: 'Reset Password' }, function async(err: any, document: any) {
+      if (err) return null;
+
+      return document;
+    });
+
+    const hasTokenExpired = await AuthTokenModel.hasTokenExpired(token.token);
+
+    if (hasTokenExpired.hasExpired) {
+      return  res.status(401).json({
+        message: 'Reset token has expired.'
+      });
+    }
+
+    let error: boolean = false;
+    let errorMessage: any = null;
+
+    await User.findOneAndUpdate({ _id: token?.user._id }, { $set:{ password: newPassword } }, (err: any, doc: any) => {
+      if (err) {
+        error = true;
+        errorMessage = err;
+      }
+
+      return doc;
+    });
+
+    if (error) {
+      return res.status(500).json({
+        message: errorMessage,
+        data: null
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Successfully updated password.'
+    });
   },
 
   isAdmin: (req: any, res: any, next: any) => {

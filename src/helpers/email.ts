@@ -34,15 +34,7 @@ const sendEmail = async (from: string, to: string, subject: string, template: st
     path: './src/views'
   }));
 
-  await transporter.sendMail(mailOptions, (err: any, info: any) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-
-    console.log(info);
-    return;
-  });
+  await transporter.sendMail(mailOptions);
 
   return;
 };

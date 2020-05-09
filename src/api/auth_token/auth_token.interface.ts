@@ -2,7 +2,7 @@ import { Document } from 'mongoose';
 
 interface IAuthToken extends Document {
   token: string;
-  user: object;
+  user: any;
   client: object;
   expiresAt: string;
   createdAt: string;
