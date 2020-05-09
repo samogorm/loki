@@ -9,7 +9,7 @@ const ClientController = {
     const client = new Client(req.body);
 
     client.secret = Encryption.encrypt(req.body.secret);
-    
+
     return client.save(function (err: any, client: IClient) {
       const success = err ? false : true;
       const result = err ? err : client;
@@ -33,7 +33,7 @@ const ClientController = {
     const clientId = req.params.client_id;
     let error: boolean = false;
     let errorMessage: any = null;
-    
+
     const client = await Client.findById(clientId)
       .catch(err => {
         error = true;
@@ -58,20 +58,20 @@ const ClientController = {
     let clients: any = [];
     let error: boolean = false;
     let errorMessage: any = null;
-  
+
     await Client.find()
       .then(data => clients = data)
       .catch(err => {
         error = true;
         errorMessage = err;
       });
-  
+
     if (!error) {
       return res.status(200).json({
         message: 'Successfully retrieved the Clients.',
         data: clients
       });
-    } 
+    }
 
     return res.status(500).json({
       message: errorMessage,
@@ -82,7 +82,7 @@ const ClientController = {
   update: async (data: any) => {
     const { req, res } = data;
     const clientId = req.params.client_id;
-  
+
     let error: boolean = false;
     let errorMessage: any = null;
 
@@ -94,7 +94,7 @@ const ClientController = {
 
       return updatedClient;
     });
- 
+
     if (!error) {
       return res.status(200).json({
         message: 'Successfully updated the Client.',

@@ -14,6 +14,10 @@ const AuthTokenSchema: Schema = new Schema({
     type: Object,
     required: true
   },
+  type: {
+    type: String,
+    default: 'Auth',
+  },
   expiresAt: {
     type: Date,
     default: Date.now() + 3

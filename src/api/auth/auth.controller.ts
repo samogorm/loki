@@ -1,3 +1,6 @@
+import { add } from 'date-fns'; 
+
+import { sendEmail } from './../../helpers';
 import UserModel from './../user/user.model';
 import ClientModel from './../client/client.model';
 import AuthTokenModel from './../auth_token/auth_token.model';
@@ -18,7 +21,7 @@ const AuthController = {
 
     if (passwordMatch && isClientValidated) {
       let existingToken: any = null;
-      await AuthToken.findOne({ user: user}, {}, { sort: { 'created_at': 0 } }, function async(err: any, document: any) {
+      await AuthToken.findOne({ user: user }, {}, { sort: { 'created_at': 0 } }, function async(err: any, document: any) {
         if (err) return null;
 
         if (document) return existingToken = document.token;
@@ -59,6 +62,27 @@ const AuthController = {
       message: 'Unauthorised.',
       data: null
     });
+  },
+
+  resetPassword: async (data: any) => {
+    const { req, res } = data;
+    const email: string = req.body.email;
+    const clientId = req.body.clientId;
+
+    const user: any = await UserModel.findBy('email', email);
+    const client: any = await ClientModel.findBy('_id', clientId);
+
+    if (user && client) {
+      const token = AuthTokenController.generateJWT(email);
+      const today = new Date();
+      const expiresAt = add(today, { minutes: 30 });
+      const firstname = user.name.split(" ")[0];
+
+      AuthTokenController.create({ token, client, user, type: 'Reset Password', expiresAt });
+      sendEmail(`${client.name}`, email, 'Reset Password', 'reset_password', { name: firstname, app: client.name, token });
+    }
+
+    return res.status(200);
   },
 
   isAdmin: (req: any, res: any, next: any) => {

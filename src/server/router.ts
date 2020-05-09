@@ -10,6 +10,7 @@ const router = express.Router();
 
 // Auth
 router.route('/oauth/token').post(async (req, res) => AuthController.login({ req, res }));
+router.route('/reset-password').post(async (req, res) => AuthController.resetPassword({ req, res }));
 
 // Clients
 router.route('/clients').post(AuthToken.validateJWT, AuthController.isAdmin, async (req, res) => Client.create({ req, res }));
