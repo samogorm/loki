@@ -48,7 +48,7 @@ const UserController = {
           name,
           token, 
           app: client.name, 
-          url: `http://localhost:5000/api/v1/activate-account/${token}`
+          url: `${client.url}/activate-account/${token}`
         });
 
         return res.status(201).json({

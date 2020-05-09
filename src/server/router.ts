@@ -16,7 +16,7 @@ router.route('/reset-password').post(async (req, res) => AuthController.resetPas
 router.route('/update-password').post(async (req, res) => AuthController.updatePassword({ req, res }));
 
 // Account Activation
-router.route('/activate-account/:token').get(async (req, res) => AuthController.activate({ req, res }));
+router.route('/activate-account/:token').post(async (req, res) => AuthController.activate({ req, res }));
 
 // Clients
 router.route('/clients').post(AuthToken.validateJWT, AuthController.isAdmin, async (req, res) => Client.create({ req, res }));

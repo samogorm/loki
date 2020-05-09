@@ -8,18 +8,31 @@
   </head>
   <style>
     a {
-      color: #0051ff;
+      background-color: #0051ff;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+
+    .margin-top {
+      margin-top: 35px;
+    }
+
+    .margin-bottom {
+      margin-bottom: 35px;
     }
   </style>
   <body>
     <p>👋 Hey {{ name }},</p>
-    <p>You recently created an account for the {{ app }} application.</p>
+    <p class="margin-bottom">You recently created an account for the {{ app }} application. Please use the link below to activate your account.</p>
 
     <a href="{{ url }}">
       Activate Account
     </a>
 
+    <p class="margin-top">The link will expire in 1 hour.</p>
     <p>All the best,</p>
-     <p>{{ app }} Team 😊</p>
+    <p>{{ app }} Team 😊</p>
   </body>
 </html>
