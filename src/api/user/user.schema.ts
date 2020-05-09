@@ -21,7 +21,7 @@ const UserSchema: Schema = new Schema({
   },
   active: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   createdAt: {
     type: Date,

@@ -26,12 +26,12 @@ const sendEmail = async (from: string, to: string, subject: string, template: st
   await transporter.use('compile', handlebars({
     viewEngine: {
       extName: '.hbs',
-      partialsDir: './src/views',
+      partialsDir: './src/views/email_templates',
       defaultLayout: false,
     },
-    viewPath: './src/views',
+    viewPath: './src/views/email_templates',
     extName: '.hbs',
-    path: './src/views'
+    path: './src/views/email_templates'
   }));
 
   await transporter.sendMail(mailOptions);

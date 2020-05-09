@@ -1,12 +1,24 @@
+import { add } from 'date-fns';
+
 import IUser from './user.interface';
 import User from './user.schema';
 import UserModel from './user.model';
+import ClientModel from '../client/client.model';
+import AuthTokenController from './../auth_token/auth_token.controller';
 import Encryption from './../../helpers/encryption';
+import { sendEmail } from './../../helpers';
 
 const UserController = {
   create: async (data: any) => {
     const { req, res } = data;
-    const user = new User(req.body);
+
+    const userDetails = {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password
+    }
+
+    const user = new User(userDetails);
 
     user.password = Encryption.encrypt(req.body.password);
     const emailTaken = await UserModel.checkEmailExists(req.body.email);
@@ -18,11 +30,27 @@ const UserController = {
       });
     }
 
+    const client = await ClientModel.findBy('_id', req.body.clientId);
+
     return user.save(function (err: any, user: IUser) {
       const success = err ? false : true;
       const result = err ? err : user;
 
       if (success) {
+        const token = AuthTokenController.generateJWT(user.email);
+        const today = new Date();
+        const expiresAt = add(today, { minutes: 120 });
+        const name: any = user.name.split(' ')[0];
+  
+        AuthTokenController.create({ token, client, user, type: 'Activate Account', expiresAt });
+
+        sendEmail(`${client.name}`, user.email, 'Activate Your Account', 'activate_account', { 
+          name,
+          token, 
+          app: client.name, 
+          url: `http://localhost:5000/api/v1/activate-account/${token}`
+        });
+
         return res.status(201).json({
           message: 'Successfully created User.',
           data: result
@@ -114,7 +142,7 @@ const UserController = {
       message: errorMessage,
       data: null
     });
-  }
+  },
 }
 
 export default UserController;

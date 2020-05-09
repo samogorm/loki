@@ -5,20 +5,18 @@ import AuthToken from './../api/auth_token/auth_token.controller';
 import Permission from './../api/permission/permission.controller';
 import LoginSession from './../api/login_session/login_session.controller';
 import AuthController from './../api/auth/auth.controller';
-import Encryption from './../helpers/encryption';
 
 const router = express.Router();
 
 // Auth
 router.route('/oauth/token').post(async (req, res) => AuthController.login({ req, res }));
+
+// Password Reset
 router.route('/reset-password').post(async (req, res) => AuthController.resetPassword({ req, res }));
 router.route('/update-password').post(async (req, res) => AuthController.updatePassword({ req, res }));
 
-router.route('/encrypt').post(async (req, res) => {
-  return res.status(200).json({
-    password: Encryption.encrypt(req.body.password)
-  });
-});
+// Account Activation
+router.route('/activate-account/:token').get(async (req, res) => AuthController.activate({ req, res }));
 
 // Clients
 router.route('/clients').post(AuthToken.validateJWT, AuthController.isAdmin, async (req, res) => Client.create({ req, res }));
