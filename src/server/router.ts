@@ -5,6 +5,7 @@ import AuthToken from './../api/auth_token/auth_token.controller';
 import Permission from './../api/permission/permission.controller';
 import LoginSession from './../api/login_session/login_session.controller';
 import AuthController from './../api/auth/auth.controller';
+import UserController from './../api/user/user.controller';
 
 const router = express.Router();
 
@@ -17,6 +18,7 @@ router.route('/update-password').post(async (req, res) => AuthController.updateP
 
 // Account Activation
 router.route('/activate-account/:token').post(async (req, res) => AuthController.activate({ req, res }));
+router.route('/resend-activation').post(async (req, res) => UserController.resendActivationEmail({ req, res }));
 
 // Clients
 router.route('/clients').post(AuthToken.validateJWT, AuthController.isAdmin, async (req, res) => Client.create({ req, res }));

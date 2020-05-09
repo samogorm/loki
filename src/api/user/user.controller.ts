@@ -37,19 +37,7 @@ const UserController = {
       const result = err ? err : user;
 
       if (success) {
-        const token = AuthTokenController.generateJWT(user.email);
-        const today = new Date();
-        const expiresAt = add(today, { minutes: 120 });
-        const name: any = user.name.split(' ')[0];
-  
-        AuthTokenController.create({ token, client, user, type: 'Activate Account', expiresAt });
-
-        sendEmail(`${client.name}`, user.email, 'Activate Your Account', 'activate_account', { 
-          name,
-          token, 
-          app: client.name, 
-          url: `${client.url}/activate-account/${token}`
-        });
+        UserController.sendActivationEmail(client, user);
 
         return res.status(201).json({
           message: 'Successfully created User.',
@@ -61,6 +49,38 @@ const UserController = {
         message: err,
         data: null
       });
+    });
+  },
+
+  resendActivationEmail: async (data: any) => {
+    const { req, res } = data;
+    const email = req.body.email;
+    const clientId = req.body.clientId;
+
+    const user = await UserModel.findBy('email', email);
+    const client = await ClientModel.findBy('_id', clientId);
+
+    UserController.sendActivationEmail(client, user);
+
+    return res.status(200).json({
+      message: 'Email resent.'
+    });
+  },
+
+  // TODO: Move this somewhere else
+  sendActivationEmail: async (client: any, user: any) => {
+    const token = AuthTokenController.generateJWT(user.email);
+    const today = new Date();
+    const expiresAt = add(today, { minutes: 120 });
+    const name: any = user.name.split(' ')[0];
+
+    AuthTokenController.create({ token, client, user, type: 'Activate Account', expiresAt });
+
+    sendEmail(`${client.name}`, user.email, 'Activate Your Account', 'activate_account', { 
+      name,
+      token, 
+      app: client.name, 
+      url: `${client.url}/activate-account/${token}`
     });
   },
 
