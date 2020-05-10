@@ -76,10 +76,15 @@ const AuthController = {
       const token = JSONWebToken.generate(email);
       const today = new Date();
       const expiresAt = add(today, { minutes: 90 });
-      const firstname = user.name.split(' ')[0];
+      const name = user.name.split(' ')[0];
 
       TokenController.create({ token, client, user, type: 'Reset Password', expiresAt });
-      sendEmail(`${client.name}`, email, 'Reset Password', 'reset_password', { name: firstname, app: client.name, token });
+      sendEmail(`${client.name}`, email, 'Reset Password', 'reset_password', {
+        name,
+        token,
+        app: client.name,
+        url: `${client.url}/reset-password/${token}`
+      });
     }
 
     return res.status(200).json({
@@ -127,48 +132,6 @@ const AuthController = {
 
     return res.status(200).json({
       message: 'Successfully updated password.'
-    });
-  },
-
-  activate: async (data: any) => {
-    const { req, res } = data;
-    const tokenId = req.params.token;
-
-    const token: any = await Token.findOne({ token: tokenId, type: 'Activate Account' }, function async(err: any, document: any) {
-      if (err) return null;
-
-      return document;
-    });
-
-    const hasTokenExpired = await TokenModel.hasTokenExpired(token.token);
-
-    if (hasTokenExpired.hasExpired) {
-      return  res.status(401).json({
-        message: 'Activate token has expired.'
-      });
-    }
-
-    let error: boolean = false;
-    let errorMessage: any = null;
-
-    await User.findOneAndUpdate({ _id: token?.user._id }, { $set:{ active: true } }, (err: any, doc: any) => {
-      if (err) {
-        error = true;
-        errorMessage = err;
-      }
-
-      return doc;
-    });
-
-    if (error) {
-      return res.status(500).json({
-        message: errorMessage,
-        data: null
-      });
-    }
-
-    return res.status(200).json({
-      message: 'Successfully activated account.'
     });
   },
 

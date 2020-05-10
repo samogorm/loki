@@ -1,11 +1,9 @@
-import { add } from 'date-fns';
-
 import IUser from './user.interface';
 import User from './user.schema';
 import UserModel from './user.model';
 import ClientModel from '../client/client.model';
-import TokenController from './../token/token.controller';
-import { sendEmail, JSONWebToken, Encryption } from './../../helpers';
+import Register from './../auth/register.controller';
+import { Encryption } from './../../helpers';
 
 const UserController = {
   create: async (data: any) => {
@@ -36,7 +34,7 @@ const UserController = {
       const result = err ? err : user;
 
       if (success) {
-        UserController.sendActivationEmail(client, user);
+        Register.sendActivationEmail(client, user);
 
         return res.status(201).json({
           message: 'Successfully created User.',
@@ -48,38 +46,6 @@ const UserController = {
         message: err,
         data: null
       });
-    });
-  },
-
-  resendActivationEmail: async (data: any) => {
-    const { req, res } = data;
-    const email = req.body.email;
-    const clientId = req.body.clientId;
-
-    const user = await UserModel.findBy('email', email);
-    const client = await ClientModel.findBy('_id', clientId);
-
-    UserController.sendActivationEmail(client, user);
-
-    return res.status(200).json({
-      message: 'Email resent.'
-    });
-  },
-
-  // TODO: Move this somewhere else
-  sendActivationEmail: async (client: any, user: any) => {
-    const token = JSONWebToken.generate(user.email);
-    const today = new Date();
-    const expiresAt = add(today, { minutes: 120 });
-    const name: any = user.name.split(' ')[0];
-
-    TokenController.create({ token, client, user, type: 'Activate Account', expiresAt });
-
-    sendEmail(`${client.name}`, user.email, 'Activate Your Account', 'activate_account', { 
-      name,
-      token, 
-      app: client.name, 
-      url: `${client.url}/activate-account/${token}`
     });
   },
 

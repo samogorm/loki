@@ -1,6 +1,6 @@
 import Client from './client.schema';
 import IClient from './client.interface';
-import Encryption from './../../helpers/encryption';
+import { Encryption } from './../../helpers';
 
 const ClientModel = {
   findBy: async (key: any, value: any) => {
