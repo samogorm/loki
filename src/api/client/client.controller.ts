@@ -1,6 +1,6 @@
 import IClient from './client.interface';
 import Client from './client.schema';
-import Encryption from './../../helpers/encryption';
+import { Encryption } from './../../helpers';
 
 const ClientController = {
   create: (data: any) => {

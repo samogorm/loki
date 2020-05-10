@@ -5,8 +5,7 @@ import User from './user.schema';
 import UserModel from './user.model';
 import ClientModel from '../client/client.model';
 import TokenController from './../token/token.controller';
-import Encryption from './../../helpers/encryption';
-import { sendEmail, JSONWebToken } from './../../helpers';
+import { sendEmail, JSONWebToken, Encryption } from './../../helpers';
 
 const UserController = {
   create: async (data: any) => {

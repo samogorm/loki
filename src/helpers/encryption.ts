@@ -3,7 +3,7 @@ import crypto from 'crypto';
 const algorithm = 'aes-256-cbc';
 const password = `${process.env.ENCRYPTION_PASSWORD}`;
 
-const Encryption = {
+export const Encryption = {
   encrypt: function (text: string) {
     var cipher = crypto.createCipher(algorithm, password)
     var crypted = cipher.update(text, 'utf8', 'hex')
@@ -19,5 +19,3 @@ const Encryption = {
     return dec;
   }
 }
-
-export default Encryption;

@@ -1,4 +1,5 @@
 import { sendEmail } from './email';
 import { JSONWebToken } from './jwt';
+import { Encryption } from './encryption';
 
-export { sendEmail, JSONWebToken };
+export { sendEmail, JSONWebToken, Encryption };

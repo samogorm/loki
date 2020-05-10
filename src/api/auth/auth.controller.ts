@@ -1,12 +1,11 @@
 import { add } from 'date-fns'; 
 
-import { sendEmail, JSONWebToken } from './../../helpers';
+import { sendEmail, JSONWebToken, Encryption } from './../../helpers';
 import User from './../user/user.schema';
 import UserModel from './../user/user.model';
 import ClientModel from './../client/client.model';
 import TokenModel from './../token/token.model';
 import Token from './../token/token.schema';
-import Encryption from '../../helpers/encryption';
 import TokenController from '../token/token.controller';
 import LoginSessionController from '../login_session/login_session.controller';
 
