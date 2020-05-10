@@ -18,6 +18,16 @@ const ClientSchema: Schema = new Schema({
     type: String,
     required: true
   },
+  brand: {
+    type: Object,
+    default: {
+      logo: null,
+      colours: {
+        primary: '#4834d4',
+        secondary: '#686de0'
+      }
+    }
+  },
   active: {
     type: Boolean,
     default: true,

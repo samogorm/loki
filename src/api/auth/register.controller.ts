@@ -78,7 +78,10 @@ const RegisterController = {
       name,
       token, 
       app: client.name, 
-      url: `${client.url}/activate-account/${token}`
+      url: `${client.url}/activate-account/${token}`,
+      logo: client.brand.logo,
+      primary: client.brand.colours.primary,
+      secondary: client.brand.colours.secondary
     });
   },
 }

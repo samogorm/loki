@@ -5,6 +5,7 @@ interface IClient extends Document {
   url: string;
   secret: string;
   grantType: string;
+  brand: object;
   active: boolean;
   createdAt: string;
   updatedAt: string;

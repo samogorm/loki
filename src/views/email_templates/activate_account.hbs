@@ -7,32 +7,59 @@
     <title>Activate Your Account</title>
   </head>
   <style>
+    body {
+      padding: 20px;
+    }
+
     a {
-      background-color: #0051ff;
-      color: white;
       padding: 10px 15px;
       border-radius: 4px;
       text-decoration: none;
     }
 
-    .margin-top {
+    img {
+      height: 50px;
+      width: 50px;
+    }
+
+    .button {
+      color: white;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .title {
+      margin: 35px 0;
+    }
+
+    .footer {
       margin-top: 35px;
     }
-
-    .margin-bottom {
-      margin-bottom: 35px;
-    }
   </style>
-  <body>
-    <p>👋 Hey {{ name }},</p>
-    <p class="margin-bottom">You recently created an account for the {{ app }} application. Please use the link below to activate your account.</p>
+  <body style="border-top: 5px solid {{ primary }}">
+    <section class="header">
+      <img src="{{ logo }}" />
+      <a href="{{ website }}" style="color: {{ primary }};"><strong>Visit Website</strong></a>
+    </section>
 
-    <a href="{{ url }}">
+    <section class="title">
+      <h2><strong>Almost there!</strong></h2>
+      <p>👋 Hey {{ name }},</p>
+      <p>You recently created an account for the {{ app }} application. Please use the link below to activate your account.</p>
+    </section>
+
+    <a href="{{ url }}" style="background-color: {{ primary }};" class="button">
       Activate Account
     </a>
 
-    <p class="margin-top">The link will expire in 1 hour.</p>
-    <p>All the best,</p>
-    <p>{{ app }} Team 😊</p>
+    <section class="footer">
+      <p>The link will expire in 1 hour.</p>
+      <p>All the best,</p>
+      <p>{{ app }} Team 😊</p>
+    </section>
   </body>
 </html>
