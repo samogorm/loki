@@ -1,6 +1,6 @@
 import { add } from 'date-fns'; 
 
-import { sendEmail } from './../../helpers';
+import { sendEmail, JSONWebToken } from './../../helpers';
 import User from './../user/user.schema';
 import UserModel from './../user/user.model';
 import ClientModel from './../client/client.model';
@@ -35,7 +35,7 @@ const AuthController = {
 
       let token: any = null;
       if (existingToken === null || existingToken.hasExpired) {
-        token = TokenController.generateJWT(user.email);
+        token = JSONWebToken.generate(user.email);
         const today = new Date();
         const expiresAt = today.setDate(today.getDate() + 3)
 
@@ -74,7 +74,7 @@ const AuthController = {
     const client: any = await ClientModel.findBy('_id', clientId);
 
     if (user && client) {
-      const token = TokenController.generateJWT(email);
+      const token = JSONWebToken.generate(email);
       const today = new Date();
       const expiresAt = add(today, { minutes: 90 });
       const firstname = user.name.split(' ')[0];

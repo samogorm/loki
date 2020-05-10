@@ -6,6 +6,7 @@ import Permission from './../api/permission/permission.controller';
 import LoginSession from './../api/login_session/login_session.controller';
 import AuthController from './../api/auth/auth.controller';
 import UserController from './../api/user/user.controller';
+import { JSONWebToken } from './../helpers';
 
 const router = express.Router();
 
@@ -21,27 +22,27 @@ router.route('/activate-account/:token').post(async (req, res) => AuthController
 router.route('/resend-activation').post(async (req, res) => UserController.resendActivationEmail({ req, res }));
 
 // Clients
-router.route('/clients').post(Token.validateJWT, AuthController.isAdmin, async (req, res) => Client.create({ req, res }));
-router.route('/clients').get(Token.validateJWT, AuthController.isAdmin, async (req, res) => Client.getAll({ req, res }));
-router.route('/clients/:client_id').get(Token.validateJWT, AuthController.isAdmin, async (req, res) => Client.get({ req, res  }));
-router.route('/clients/:client_id').put(Token.validateJWT, AuthController.isAdmin, async (req, res) => Client.update({ req, res }));
+router.route('/clients').post(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => Client.create({ req, res }));
+router.route('/clients').get(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => Client.getAll({ req, res }));
+router.route('/clients/:client_id').get(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => Client.get({ req, res  }));
+router.route('/clients/:client_id').put(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => Client.update({ req, res }));
 
 // Users
 router.route('/users').post(async (req, res) => User.create({ req, res }));
-router.route('/users').get(Token.validateJWT, AuthController.isAdmin, async (req, res) => User.getAll({ req, res }));
-router.route('/users/:user_id').get(Token.validateJWT, AuthController.isAdmin || AuthController.isAuth, async (req, res) => User.get({ req, res }));
-router.route('/users/:user_id').put(Token.validateJWT, AuthController.isAdmin || AuthController.isAuth, async (req, res) => User.update({ req, res }));
+router.route('/users').get(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => User.getAll({ req, res }));
+router.route('/users/:user_id').get(JSONWebToken.validate, AuthController.isAdmin || AuthController.isAuth, async (req, res) => User.get({ req, res }));
+router.route('/users/:user_id').put(JSONWebToken.validate, AuthController.isAdmin || AuthController.isAuth, async (req, res) => User.update({ req, res }));
 
 // Permission
-router.route('/permissions').post(Token.validateJWT, AuthController.isAdmin, async (req, res) => Permission.create({ req, res }));
-router.route('/permissions').get(Token.validateJWT, AuthController.isAdmin, async (req, res) => Permission.getAll({ req, res }));
-router.route('/permissions/:permission_id').get(Token.validateJWT, AuthController.isAdmin, async (req, res) => Permission.get({ req, res }));
-router.route('/permissions/:permission_id').put(Token.validateJWT, AuthController.isAdmin, async (req, res) => Permission.update({ req, res }));
+router.route('/permissions').post(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => Permission.create({ req, res }));
+router.route('/permissions').get(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => Permission.getAll({ req, res }));
+router.route('/permissions/:permission_id').get(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => Permission.get({ req, res }));
+router.route('/permissions/:permission_id').put(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => Permission.update({ req, res }));
 
 // Auth Token
-router.route('/tokens').get(Token.validateJWT, AuthController.isAdmin, async (req, res) => Token.getAll({ req, res }));
-router.route('/tokens/:token_id').get(Token.validateJWT, AuthController.isAdmin, async (req, res) => Token.get({ req, res }));
-router.route('/tokens/:token_id').put(Token.validateJWT, AuthController.isAdmin, async (req, res) => Token.update({ req, res }));
+router.route('/tokens').get(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => Token.getAll({ req, res }));
+router.route('/tokens/:token_id').get(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => Token.get({ req, res }));
+router.route('/tokens/:token_id').put(JSONWebToken.validate, AuthController.isAdmin, async (req, res) => Token.update({ req, res }));
 
 // Login Session
 router.route('/loginsessions').get(async (req, res) => LoginSession.getAll({ req, res }));

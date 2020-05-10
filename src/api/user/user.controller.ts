@@ -6,7 +6,7 @@ import UserModel from './user.model';
 import ClientModel from '../client/client.model';
 import TokenController from './../token/token.controller';
 import Encryption from './../../helpers/encryption';
-import { sendEmail } from './../../helpers';
+import { sendEmail, JSONWebToken } from './../../helpers';
 
 const UserController = {
   create: async (data: any) => {
@@ -69,7 +69,7 @@ const UserController = {
 
   // TODO: Move this somewhere else
   sendActivationEmail: async (client: any, user: any) => {
-    const token = TokenController.generateJWT(user.email);
+    const token = JSONWebToken.generate(user.email);
     const today = new Date();
     const expiresAt = add(today, { minutes: 120 });
     const name: any = user.name.split(' ')[0];
