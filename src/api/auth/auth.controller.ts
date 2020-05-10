@@ -21,7 +21,7 @@ const AuthController = {
 
     if (passwordMatch && isClientValidated) {
       let existingToken: any = null;
-      await Token.findOne({ user: user }, {}, { sort: { 'created_at': 0 } }, function async(err: any, document: any) {
+      await Token.findOne({ user: user, type: 'Login' }, {}, { sort: { 'created_at': 0 } }, function async(err: any, document: any) {
         if (err) return null;
 
         if (document) return existingToken = document.token;

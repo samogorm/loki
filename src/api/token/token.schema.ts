@@ -16,7 +16,7 @@ const TokenSchema: Schema = new Schema({
   },
   type: {
     type: String,
-    default: 'Auth',
+    default: 'Login',
   },
   expiresAt: {
     type: Date,
