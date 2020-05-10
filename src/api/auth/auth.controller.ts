@@ -84,9 +84,10 @@ const AuthController = {
         token,
         app: client.name,
         url: `${client.url}/reset-password/${token}`,
+        website: client.url,
         logo: client.brand.logo,
-        primary: client.brand.primary,
-        secondary: client.brand.secondary
+        primary: client.brand.colours.primary,
+        secondary: client.brand.colours.secondary
       });
     }
 
