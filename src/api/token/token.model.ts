@@ -1,15 +1,12 @@
-import AuthToken from './auth_token.schema';
-import IAuthToken from './auth_token.interface';
-import { ftruncate } from 'fs';
+import Token from './token.schema';
 
-const AuthTokenModel = {
+const TokenModel = {
   findBy: async (key: any, value: any) => {
     let result: any;
 
-    await AuthToken.findOne({ [key]: value })
-      .then(authToken => result = authToken)
+    await Token.findOne({ [key]: value })
+      .then(token => result = token)
       .catch(err => {
-        console.log(err);
         result = null;
       });
 
@@ -20,8 +17,8 @@ const AuthTokenModel = {
     const now: Date = new Date();
     let foundToken: any;
     
-    await AuthToken.findOne({ token: token })
-    .then(authToken => foundToken = authToken)
+    await Token.findOne({ token: token })
+    .then(token => foundToken = token)
     .catch(err => {
       return {
         hasExpired: true,
@@ -36,4 +33,4 @@ const AuthTokenModel = {
   }
 };
 
-export default AuthTokenModel;
+export default TokenModel;

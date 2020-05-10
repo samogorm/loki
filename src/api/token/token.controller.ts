@@ -2,16 +2,15 @@ require('dotenv').config();
 
 import jwt from 'jsonwebtoken';
 
-import IAuthToken from './auth_token.interface';
-import AuthToken from './auth_token.schema';
+import IToken from './token.interface';
+import Token from './token.schema';
 
-const AuthTokenController = {
+const TokenController = {
   create: (data: any) => {
-    const authToken = new AuthToken(data);
+    const token = new Token(data);
 
-    return authToken.save(function (err: any, authToken: IAuthToken) {
+    return token.save(function (err: any, doc: IToken) {
       const success = err ? false : true;
-      const result = err ? err : authToken;
 
       if (success) {
        return true;
@@ -27,7 +26,7 @@ const AuthTokenController = {
     let error: boolean = false;
     let errorMessage: any = null;
 
-    const token = await AuthToken.findById(tokenId)
+    const token = await Token.findById(tokenId)
       .catch(err => {
         error = true;
         errorMessage = err;
@@ -52,7 +51,7 @@ const AuthTokenController = {
     let error: boolean = false;
     let errorMessage: any = null;
 
-    await AuthToken.find()
+    await Token.find()
       .then(data => tokens = data)
       .catch(err => {
         error = true;
@@ -79,7 +78,7 @@ const AuthTokenController = {
     let error: boolean = false;
     let errorMessage: any = null;
 
-    const token = await AuthToken.findOneAndUpdate({ _id: tokenId }, req.body, (err: any, updatedToken: any) => {
+    const token = await Token.findOneAndUpdate({ _id: tokenId }, req.body, (err: any, updatedToken: any) => {
       if (err) {
         error = true;
         errorMessage = err;
@@ -90,7 +89,7 @@ const AuthTokenController = {
 
     if (!error) {
       return res.status(200).json({
-        message: 'Successfully updated the AuthToken.',
+        message: 'Successfully updated the Token.',
         data: token
       });
     }
@@ -100,7 +99,7 @@ const AuthTokenController = {
       data: null
     });
   },
-
+  // TODO: move to helpers/jwt
   generateJWT: (email: string) => {
     const payload = { user: email };
     const options = {
@@ -145,4 +144,4 @@ const AuthTokenController = {
   }
 }
 
-export default AuthTokenController;
+export default TokenController;

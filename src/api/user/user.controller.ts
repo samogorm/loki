@@ -4,7 +4,7 @@ import IUser from './user.interface';
 import User from './user.schema';
 import UserModel from './user.model';
 import ClientModel from '../client/client.model';
-import AuthTokenController from './../auth_token/auth_token.controller';
+import TokenController from './../token/token.controller';
 import Encryption from './../../helpers/encryption';
 import { sendEmail } from './../../helpers';
 
@@ -69,12 +69,12 @@ const UserController = {
 
   // TODO: Move this somewhere else
   sendActivationEmail: async (client: any, user: any) => {
-    const token = AuthTokenController.generateJWT(user.email);
+    const token = TokenController.generateJWT(user.email);
     const today = new Date();
     const expiresAt = add(today, { minutes: 120 });
     const name: any = user.name.split(' ')[0];
 
-    AuthTokenController.create({ token, client, user, type: 'Activate Account', expiresAt });
+    TokenController.create({ token, client, user, type: 'Activate Account', expiresAt });
 
     sendEmail(`${client.name}`, user.email, 'Activate Your Account', 'activate_account', { 
       name,

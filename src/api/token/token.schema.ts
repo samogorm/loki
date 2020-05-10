@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-import IAuthToken from './auth_token.interface';
+import IToken from './token.interface';
 
-const AuthTokenSchema: Schema = new Schema({
+const TokenSchema: Schema = new Schema({
   token: {
     type: String,
     required: true
@@ -32,4 +32,4 @@ const AuthTokenSchema: Schema = new Schema({
   }
 });
 
-export default mongoose.model<IAuthToken>('AuthToken', AuthTokenSchema);
+export default mongoose.model<IToken>('Token', TokenSchema);

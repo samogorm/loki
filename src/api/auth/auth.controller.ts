@@ -4,10 +4,10 @@ import { sendEmail } from './../../helpers';
 import User from './../user/user.schema';
 import UserModel from './../user/user.model';
 import ClientModel from './../client/client.model';
-import AuthTokenModel from './../auth_token/auth_token.model';
-import AuthToken from './../auth_token/auth_token.schema';
+import TokenModel from './../token/token.model';
+import Token from './../token/token.schema';
 import Encryption from '../../helpers/encryption';
-import AuthTokenController from '../auth_token/auth_token.controller';
+import TokenController from '../token/token.controller';
 import LoginSessionController from '../login_session/login_session.controller';
 
 const AuthController = {
@@ -22,7 +22,7 @@ const AuthController = {
 
     if (passwordMatch && isClientValidated) {
       let existingToken: any = null;
-      await AuthToken.findOne({ user: user }, {}, { sort: { 'created_at': 0 } }, function async(err: any, document: any) {
+      await Token.findOne({ user: user }, {}, { sort: { 'created_at': 0 } }, function async(err: any, document: any) {
         if (err) return null;
 
         if (document) return existingToken = document.token;
@@ -30,16 +30,16 @@ const AuthController = {
       });
 
       if (existingToken) {
-        existingToken = await AuthTokenModel.hasTokenExpired(existingToken);
+        existingToken = await TokenModel.hasTokenExpired(existingToken);
       }
 
       let token: any = null;
       if (existingToken === null || existingToken.hasExpired) {
-        token = AuthTokenController.generateJWT(user.email);
+        token = TokenController.generateJWT(user.email);
         const today = new Date();
         const expiresAt = today.setDate(today.getDate() + 3)
 
-        AuthTokenController.create({ token, client, user, expiresAt });
+        TokenController.create({ token, client, user, expiresAt });
       }
       const loginSession = {
         type: 'Login',
@@ -74,12 +74,12 @@ const AuthController = {
     const client: any = await ClientModel.findBy('_id', clientId);
 
     if (user && client) {
-      const token = AuthTokenController.generateJWT(email);
+      const token = TokenController.generateJWT(email);
       const today = new Date();
       const expiresAt = add(today, { minutes: 90 });
       const firstname = user.name.split(' ')[0];
 
-      AuthTokenController.create({ token, client, user, type: 'Reset Password', expiresAt });
+      TokenController.create({ token, client, user, type: 'Reset Password', expiresAt });
       sendEmail(`${client.name}`, email, 'Reset Password', 'reset_password', { name: firstname, app: client.name, token });
     }
 
@@ -93,13 +93,13 @@ const AuthController = {
     const resetToken: any = req.body.reset_token;
     const newPassword: string = req.body.password;
 
-    const token: any = await AuthToken.findOne({ token: resetToken, type: 'Reset Password' }, function async(err: any, document: any) {
+    const token: any = await Token.findOne({ token: resetToken, type: 'Reset Password' }, function async(err: any, document: any) {
       if (err) return null;
 
       return document;
     });
 
-    const hasTokenExpired = await AuthTokenModel.hasTokenExpired(token.token);
+    const hasTokenExpired = await TokenModel.hasTokenExpired(token.token);
 
     if (hasTokenExpired.hasExpired) {
       return  res.status(401).json({
@@ -135,13 +135,13 @@ const AuthController = {
     const { req, res } = data;
     const tokenId = req.params.token;
 
-    const token: any = await AuthToken.findOne({ token: tokenId, type: 'Activate Account' }, function async(err: any, document: any) {
+    const token: any = await Token.findOne({ token: tokenId, type: 'Activate Account' }, function async(err: any, document: any) {
       if (err) return null;
 
       return document;
     });
 
-    const hasTokenExpired = await AuthTokenModel.hasTokenExpired(token.token);
+    const hasTokenExpired = await TokenModel.hasTokenExpired(token.token);
 
     if (hasTokenExpired.hasExpired) {
       return  res.status(401).json({
@@ -177,9 +177,9 @@ const AuthController = {
     const authorizationHeader = req.headers.authorization;
     let result: any = '';
     if (authorizationHeader) {
-      const authToken = req.headers.authorization.split(' ')[1];
+      const token = req.headers.authorization.split(' ')[1];
 
-      AuthToken.find({ token: authToken })
+      Token.find({ token: token })
       .then((token: any) => {
         if(token[0].user.permissions.includes('Admin') && token[0].user.active) {
           next();
@@ -201,7 +201,7 @@ const AuthController = {
     if (authorizationHeader) {
       const token = req.headers.authorization.split(' ')[1];
 
-      AuthToken.find({ token: token })
+      Token.find({ token: token })
       .then((token: any) => {
         if(token[0].user.active) {
           next();
