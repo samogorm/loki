@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import Client from './../api/client/client.schema';
 
-import RouteMiddleware from './route_middleware';
+import RouteMiddleware from './../router/route.middleware';
 import router from './router';
 
 class Server {
