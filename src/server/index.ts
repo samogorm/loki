@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 import Client from './../api/client/client.schema';
 
 import RouteMiddleware from './../router/route.middleware';
-import router from './router';
+import router from './../router';
 
 class Server {
   private readonly SERVER_STARTED = `Running API on port:`;
@@ -25,7 +25,7 @@ class Server {
     //     whitelist.push(client.url);
     //   })
     //   .catch(err => console.log(err));
-  
+
     const corsOptions = {
       origin: function (origin: any, callback: any) {
         if (whitelist.indexOf(origin) !== -1) {

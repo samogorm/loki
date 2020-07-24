@@ -8,10 +8,10 @@ A re-usable authentication API that allows a user to submit their email and pass
 
 ## Get Started With This Repo
 
-1. Clone this repo `git clone https://github.com/samogorm/oauth-api.git`.
+1. Clone this repo `git clone https://github.com/samogorm/loki.git`.
 2. cd in to the cloned directory.
 3. Run `npm install`.
-4. Add a *.env* file in the root directory. 
+4. Add a *.env* file in the root directory.
 5. Copy the enviroment variables from *.env.example* into *.env*.
 6. Update the environment variables if needed.
 7. Run `npm run start:dev`.

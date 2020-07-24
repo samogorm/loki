@@ -10,6 +10,8 @@ import { JSONWebToken } from './../helpers';
 
 const router = express.Router();
 
+router.route('/test').get(async (req, res) => res.send('Success!'));
+
 // Auth
 router.route('/oauth/token').post(async (req, res) => Auth.login({ req, res }));
 
