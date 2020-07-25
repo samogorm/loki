@@ -28,7 +28,7 @@ class Server {
 
     const corsOptions = {
       origin: function (origin: any, callback: any) {
-        if (whitelist.indexOf(origin) !== -1) {
+        if (enabledUrlList.indexOf(origin) !== -1) {
           callback(null, true);
         } else {
           callback(new Error('Not allowed by CORS'));
@@ -45,7 +45,7 @@ class Server {
 
     app.listen(port);
     console.log(`${this.SERVER_STARTED} ${port}`);
-    console.log(whitelist);
+    console.log(enabledUrlList);
   };
 }
 

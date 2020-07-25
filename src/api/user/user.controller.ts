@@ -7,44 +7,30 @@ import { Encryption } from './../../helpers';
 
 const UserController = {
   create: async (data: any) => {
-    const { req, res } = data;
+    const { name, email, password } = data;
 
-    const userDetails = {
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password
-    }
+    const user = new User(data);
 
-    const user = new User(userDetails);
-
-    user.password = Encryption.encrypt(req.body.password);
-    const emailTaken = await UserModel.checkEmailExists(req.body.email);
+    user.password = Encryption.encrypt(password);
+    const emailTaken = await UserModel.checkEmailExists(email);
 
     if (emailTaken) {
-      return res.status(400).json({
-        message: `The email ${req.body.email} is already in use.`,
-        data: null
-      });
+      console.log(' email is taken ');
     }
 
-    const client = await ClientModel.findBy('_id', req.body.clientId);
+    return user.save(function (error: any, user: IUser) {
+      const result = error ? error : user;
 
-    return user.save(function (err: any, user: IUser) {
-      const success = err ? false : true;
-      const result = err ? err : user;
-
-      if (success) {
-        Register.sendActivationEmail(client, user);
-
-        return res.status(201).json({
-          message: 'Successfully created User.',
-          data: result
+      if (error) {
+        return ({
+          message: error,
+          data: null
         });
       }
 
-      return res.status(500).json({
-        message: err,
-        data: null
+      return ({
+        message: 'Successfully created User.',
+        data: result
       });
     });
   },

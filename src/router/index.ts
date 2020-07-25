@@ -6,11 +6,13 @@ import Permission from './../api/permission/permission.controller';
 import LoginSession from './../api/login_session/login_session.controller';
 import Register from './../api/auth/register.controller';
 import Auth from './../api/auth/auth.controller';
+import GraphQLController from './../graphql';
 import { JSONWebToken } from './../helpers';
 
 const router = express.Router();
 
 router.route('/test').get(async (req, res) => res.send('Success!'));
+router.route('/graphql', GraphQLController);
 
 // Auth
 router.route('/oauth/token').post(async (req, res) => Auth.login({ req, res }));
