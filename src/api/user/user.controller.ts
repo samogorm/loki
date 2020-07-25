@@ -60,13 +60,7 @@ const UserController = {
     });
   },
 
-  getAll: async () => {
-    let users: any = [];
-  
-    await User.find().then(data => users = data);
-
-    return users;
-  },
+  getAll: async () => User.find().then(users => users),
 
   update: async (data: any) => {
     const { req, res } = data;
