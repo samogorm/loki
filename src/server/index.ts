@@ -41,7 +41,7 @@ class Server {
       resolvers: {
         Query: {
           user: (input: String) => UserController.get({ name: input }),
-          users: () => UserController.getAll(''),
+          users: () => UserController.getAll(),
         },
         Mutation: {
           createUser: (input: any) => UserController.create(input)
