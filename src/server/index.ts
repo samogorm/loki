@@ -4,11 +4,10 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
-import { ApolloServer, gql } from 'apollo-server-express';
 
+import apolloServer from './../graphql/index';
 import router from './../router';
 import RouteMiddleware from './../router/route.middleware';
-import UserController from './../api/user/user.controller';
 
 class Server {
   private readonly SERVER_STARTED = `Running API on port:`;
@@ -16,38 +15,7 @@ class Server {
   public start = (port: any) => {
     const app = express();
     const routeMiddleware = new RouteMiddleware();
-    const server = new ApolloServer({
-      typeDefs: gql`
-        type Query {
-          user(name: String!): User
-          users: [User]
-        }
-
-        type Mutation {
-          createUser(name: String!, email: String!, password: String!, permissions: [String], active: Boolean): User
-        }
-
-        type User {
-          id: String!,
-          name: String!,
-          email: String!,
-          password: String!,
-          permissions: [String!],
-          active: Boolean,
-          createdAt: String,
-          updatedAt: String
-        }
-      `,
-      resolvers: {
-        Query: {
-          user: (input: String) => UserController.get({ name: input }),
-          users: () => UserController.getAll(),
-        },
-        Mutation: {
-          createUser: (input: any) => UserController.create(input)
-        }
-      }
-    })
+    const server = apolloServer();
 
     server.applyMiddleware({ app })
     app.use(cors());

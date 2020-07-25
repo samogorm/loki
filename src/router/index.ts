@@ -30,10 +30,10 @@ router.route('/clients/:client_id').get(JSONWebToken.validate, Auth.isAdmin, asy
 router.route('/clients/:client_id').put(JSONWebToken.validate, Auth.isAdmin, async (req, res) => Client.update({ req, res }));
 
 // Users
-router.route('/users').post(async (req, res) => User.create({ req, res }));
-router.route('/users').get(JSONWebToken.validate, Auth.isAdmin, async (req, res) => User.getAll({ req, res }));
-router.route('/users/:user_id').get(JSONWebToken.validate, Auth.isAdmin || Auth.isAuth, async (req, res) => User.get({ req, res }));
-router.route('/users/:user_id').put(JSONWebToken.validate, Auth.isAdmin || Auth.isAuth, async (req, res) => User.update({ req, res }));
+// router.route('/users').post(async (req, res) => User.create({ req, res }));
+// router.route('/users').get(JSONWebToken.validate, Auth.isAdmin, async (req, res) => User.getAll({ req, res }));
+// router.route('/users/:user_id').get(JSONWebToken.validate, Auth.isAdmin || Auth.isAuth, async (req, res) => User.get({ req, res }));
+// router.route('/users/:user_id').put(JSONWebToken.validate, Auth.isAdmin || Auth.isAuth, async (req, res) => User.update({ req, res }));
 
 // Permission
 router.route('/permissions').post(JSONWebToken.validate, Auth.isAdmin, async (req, res) => Permission.create({ req, res }));

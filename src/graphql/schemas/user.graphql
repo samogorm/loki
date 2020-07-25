@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(name: String!, email: String!, password: String!, permissions: Array, active: Boolean): User
+  createUser(name: String!, email: String!, password: String!, permissions: [String], active: Boolean): User
 }
 
 type User {
@@ -12,8 +12,8 @@ type User {
   name: String!,
   email: String!,
   password: String!,
-  permissions: Array,
+  permissions: [String!],
   active: Boolean,
-  createdAt: Date,
-  updatedAt: Date
+  createdAt: String,
+  updatedAt: String
 }
