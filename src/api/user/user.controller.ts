@@ -60,30 +60,12 @@ const UserController = {
     });
   },
 
-  getAll: async (data: any) => {
-    const { res } = data;
+  getAll: async () => {
     let users: any = [];
-    let error: boolean = false;
-    let errorMessage: any = null;
+  
+    await User.find().then(data => users = data);
 
-    await User.find()
-      .then(data => users = data)
-      .catch(err => {
-        error = true;
-        errorMessage = err;
-      });
-
-    if (!error) {
-      return res.status(200).json({
-        message: 'Successfully retrieved the Users.',
-        data: users
-      });
-    }
-
-    return res.status(500).json({
-      message: errorMessage,
-      data: null
-    });
+    return users;
   },
 
   update: async (data: any) => {

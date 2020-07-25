@@ -3,7 +3,27 @@ import { buildSchema } from 'graphql';
 
 import UserController from './../api/user/user.controller';
 
-const schema = buildSchema('./schema/schema.graphql');
+const schema = buildSchema(`
+  type Query {
+    user(name: String!): User
+    users: [User]
+  }
+
+  type Mutation {
+    createUser(name: String!, email: String!, password: String!, permissions: [String], active: Boolean): User
+  }
+
+  type User {
+    id: String!,
+    name: String!,
+    email: String!,
+    password: String!,
+    permissions: [String!],
+    active: Boolean,
+    createdAt: String,
+    updatedAt: String
+  }
+`);
 
 const rootResolver = {
   user: (input: String) => UserController.get({ name: input }),
