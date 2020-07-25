@@ -16,13 +16,13 @@ class Server {
     const app = express();
     const routeMiddleware = new RouteMiddleware();
 
-    let whitelist: any = ['http://localhost:3000', '*'];
+    let enabledUrlList: any = ['http://localhost:3000', '*'];
 
     // await Client.find()
     //   .then(data => {
     //     const client: any = data;
     //     console.log('here')
-    //     whitelist.push(client.url);
+    //     enabledUrlList.push(client.url);
     //   })
     //   .catch(err => console.log(err));
 

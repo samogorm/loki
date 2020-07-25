@@ -20,7 +20,9 @@ A re-usable authentication API that allows a user to submit their email and pass
 9. If you can see a JSON response message saying "Success!" then you are all up and running.
 
 ## Testing Endpoints
-To test the API endpoints, you can import the collection into Postman. [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/0598f505914cab337147)
+To test the API endpoints, you can import the collection into Postman.
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/0598f505914cab337147)
 
 ## Tech Stack
 * MongoDB
