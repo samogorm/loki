@@ -1,10 +1,11 @@
 # Authentication API
 
 ## Description
-A re-usable authentication API that allows a user to submit their email and password and returns  a valid access token.
+A re-usable authentication API that allows a user to submit their email and password and returns a valid access token.
 
 ## Minimum Requirements
 * NodeJS 10.16.0+
+* MongoDB
 
 ## Get Started With This Repo
 
@@ -12,8 +13,8 @@ A re-usable authentication API that allows a user to submit their email and pass
 2. cd in to the cloned directory.
 3. Run `npm install`.
 4. Add a *.env* file in the root directory.
-5. Copy the enviroment variables from *.env.example* into *.env*.
-6. Update the environment variables if needed.
+5. Copy the environment variables from *.env.example* into *.env*.
+6. Update the environment variables, if needed (current ones are fine for testing).
 7. Run `npm run start:dev`.
 8. Open browser and go to http://localhost:5000/api/v1/test.
 9. If you can see a JSON response message saying "Success!" then you are all up and running.
@@ -31,10 +32,21 @@ To test the API endpoints, you can import the collection into Postman. [![Run in
 * Create user
 * Login via email and password
 * Reset password
-* Update details i.e Name, email, password
-* Create Client
-* Update Client
+* Update user details i.e Name, email, password
+* Create, read, update and delete a Client
 
-## Future Additional Features
+## Future Roadmap
+
+### Testing
+* Add unit tests!
+
+### Tech Stack
+* Add GraphQL
+
+### Tools
+* Production builds
+
+### Features
 * Login via Facebook
 * Login via Twitter
+* Client-based permissions/roles
