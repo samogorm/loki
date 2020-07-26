@@ -4,6 +4,7 @@ import UserModel from './user.model';
 import ClientModel from '../client/client.model';
 import Register from './../auth/register.controller';
 import { Encryption } from './../../helpers';
+import { Schema } from 'mongoose';
 
 const UserController = {
   create: async (data: any) => {
@@ -35,32 +36,8 @@ const UserController = {
     });
   },
 
-  get: async (data: any) => {
-    const { req, res } = data;
-    const userId = req.params.user_id;
-    let error: boolean = false;
-    let errorMessage: any = null;
-
-    const user = await User.findById(userId)
-      .catch(err => {
-        error = true;
-        errorMessage = err;
-      });
-
-    if (!error) {
-      return res.status(200).json({
-        message: 'Successfully retrieved the User.',
-        data: user
-      });
-    }
-
-    return res.status(500).json({
-      message: errorMessage,
-      data: null
-    });
-  },
-
-  getAll: async () => User.find().then(users => users),
+  get: (id: String) => User.findById(id),
+  getAll: () => User.find().then(users => users),
 
   update: async (data: any) => {
     const { req, res } = data;

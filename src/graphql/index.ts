@@ -1,40 +1,18 @@
-import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 
-import UserController from './../api/user/user.controller';
+import { UserSchema } from './schemas';
+import { UserResolver } from './resolvers';
 
 const apolloServer = () => {
+  const typeDefs = [ UserSchema ];
+  const resolvers = UserResolver;
+
   const server = new ApolloServer({
-    typeDefs: gql`
-      type Query {
-        user(name: String!): User
-        users: [User]
-      }
-  
-      type Mutation {
-        createUser(name: String!, email: String!, password: String!, permissions: [String], active: Boolean): User
-      }
-  
-      type User {
-        id: String!,
-        name: String!,
-        email: String!,
-        password: String!,
-        permissions: [String!],
-        active: Boolean,
-        createdAt: String,
-        updatedAt: String
-      }
-    `,
-    resolvers: {
-      Query: {
-        user: (input: String) => UserController.get({ name: input }),
-        users: () => UserController.getAll(),
-      },
-      Mutation: {
-        createUser: (input: any) => UserController.create(input)
-      }
-    }
+    typeDefs,
+    resolvers
   });
+
+  console.log('Server: ', server);
 
   return server;
 }
