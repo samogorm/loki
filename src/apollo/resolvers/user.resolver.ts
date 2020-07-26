@@ -9,8 +9,10 @@ export const UserResolver = {
     resetPassword: (parent: any, args: any, context: any, info: any) => UserController.resetPassword(args.email, args.clientId),
     user: (parent: any, args: any, context: any, info: any) => UserController.getById(args.id),
     users: () => UserController.getAll(),
+    sendActivationEmail: (parent: any, args: any, context: any, info: any) => UserController.resendActivationEmail(args.email, args.clientId),
   },
   Mutation: {
+    activateUser: (parent: any, args: any, context: any, info: any) => UserController.activate(args.activateToken),
     createUser: (parent: any, args: any, context: any, info: any) => UserController.create(args),
     updateUser: (parent: any, args: any, context: any, info: any) => {
       const { id, name, email, password, active, permissions } = args;

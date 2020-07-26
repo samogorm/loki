@@ -4,17 +4,12 @@ import User from './../api/user/user.controller';
 import Token from './../api/token/token.controller';
 import Permission from './../api/permission/permission.controller';
 import LoginSession from './../api/login_session/login_session.controller';
-import Register from './../api/auth/register.controller';
 import Auth from './../api/auth/auth.controller';
 import { JSONWebToken } from './../helpers';
 
 const router = express.Router();
 
 router.route('/test').get(async (req, res) => res.send('Success!'));
-
-// Account Activation
-// router.route('/activate-account/:token').post(async (req, res) => Register.activate({ req, res }));
-// router.route('/resend-activation').post(async (req, res) => Register.resendActivationEmail({ req, res }));
 
 // Permission
 // router.route('/permissions').post(JSONWebToken.validate, Auth.isAdmin, async (req, res) => Permission.create({ req, res }));
