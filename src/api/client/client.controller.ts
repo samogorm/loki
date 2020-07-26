@@ -16,8 +16,6 @@ const ClientController = {
   update: (id: String, data: any) => {
     data.secret = Encryption.encrypt(data.secret);
 
-    console.log(data);
-
     return Client.findOneAndUpdate({ _id: id }, data, { new: true }).then(client => client);
   },
 
