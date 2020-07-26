@@ -23,7 +23,7 @@ const UserController = {
   update: (id: String, name: String, email: String, password: any, active: Boolean, permissions: any) => {
     const data = { name, email, password: Encryption.encrypt(password), active, permissions };
 
-    return User.findOneAndUpdate({ _id: id }, data, { new: true }).then(user => user)
+    return User.findOneAndUpdate({ _id: id }, data, { new: true }).then(user => user);
   }
 }
 

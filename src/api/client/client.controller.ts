@@ -2,6 +2,10 @@ import { ClientModel as Client, ClientInterface as IClient } from './index';
 import { Encryption } from './../../helpers';
 
 const ClientController = {
+  getById: (id: String) => Client.findById(id),
+
+  getAll: () => Client.find().then(client => client),
+
   create: (data: any) => {
     const { name, url, secret, grantType, brand } = data;
     const client = new Client({ name, url, grantType, brand, secret: Encryption.encrypt(secret) });
@@ -9,84 +13,12 @@ const ClientController = {
     return client.save().then(client => client);
   },
 
-  get: async (data: any) => {
-    const { req, res } = data;
-    const clientId = req.params.client_id;
-    let error: boolean = false;
-    let errorMessage: any = null;
+  update: (id: String, data: any) => {
+    data.secret = Encryption.encrypt(data.secret);
 
-    const client = await Client.findById(clientId)
-      .catch(err => {
-        error = true;
-        errorMessage = err;
-      });
+    console.log(data);
 
-    if (!error) {
-      return res.status(200).json({
-        message: 'Successfully retrieved the Client.',
-        data: client
-      });
-    }
-
-    return res.status(500).json({
-      message: errorMessage,
-      data: null
-    });
-  },
-
-  getAll: async (data: any) => {
-    const { res } = data;
-    let clients: any = [];
-    let error: boolean = false;
-    let errorMessage: any = null;
-
-    await Client.find()
-      .then(data => clients = data)
-      .catch(err => {
-        error = true;
-        errorMessage = err;
-      });
-
-    if (!error) {
-      return res.status(200).json({
-        message: 'Successfully retrieved the Clients.',
-        data: clients
-      });
-    }
-
-    return res.status(500).json({
-      message: errorMessage,
-      data: null
-    });
-  },
-
-  update: async (data: any) => {
-    const { req, res } = data;
-    const clientId = req.params.client_id;
-
-    let error: boolean = false;
-    let errorMessage: any = null;
-
-    const client = await Client.findOneAndUpdate({ _id: clientId }, req.body, (err: any, updatedClient: any) => {
-      if (err) {
-        error = true;
-        errorMessage = err;
-      }
-
-      return updatedClient;
-    });
-
-    if (!error) {
-      return res.status(200).json({
-        message: 'Successfully updated the Client.',
-        data: client
-      });
-    }
-
-    return res.status(500).json({
-      message: errorMessage,
-      data: null
-    });
+    return Client.findOneAndUpdate({ _id: id }, data, { new: true }).then(client => client);
   },
 
   validate: async (client: IClient, secret: any) => {

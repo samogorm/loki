@@ -6,6 +6,7 @@ export const ClientSchema = `
     secret: String!,
     grantType: String!,
     brand: Brand,
+    active: Boolean,
     createdAt: String,
     updatedAt: String
   }
