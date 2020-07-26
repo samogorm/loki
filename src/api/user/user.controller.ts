@@ -13,10 +13,10 @@ const UserController = {
     const user = new User(data);
 
     user.password = Encryption.encrypt(password);
-    const emailTaken = await UserModel.checkEmailExists(email);
+    const emailTaken = await UserController.checkEmailExists(email);
 
     if (emailTaken) {
-      console.log(' email is taken ');
+      
     }
 
     return user.save(function (error: any, user: IUser) {
@@ -37,7 +37,16 @@ const UserController = {
   },
 
   get: (id: String) => User.findById(id),
+
   getAll: () => User.find().then(users => users),
+
+  checkEmailExists: (email: string) => {
+    return User.findOne({ email: email }).then(data => data);
+  },
+
+  findBy: (key: any, value: any) => {
+    return User.findOne({ [key]: value }).then(user => user);
+  },
 
   update: async (data: any) => {
     const { req, res } = data;

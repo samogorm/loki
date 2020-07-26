@@ -12,8 +12,6 @@ const apolloServer = () => {
     resolvers
   });
 
-  console.log('Server: ', server);
-
   return server;
 }
 
