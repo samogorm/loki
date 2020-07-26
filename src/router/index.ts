@@ -12,28 +12,9 @@ const router = express.Router();
 
 router.route('/test').get(async (req, res) => res.send('Success!'));
 
-// Auth
-// router.route('/oauth/token').post(async (req, res) => Auth.login({ req, res }));
-
-// Password Reset
-// router.route('/reset-password').post(async (req, res) => Auth.resetPassword({ req, res }));
-// router.route('/update-password').post(async (req, res) => Auth.updatePassword({ req, res }));
-
 // Account Activation
 // router.route('/activate-account/:token').post(async (req, res) => Register.activate({ req, res }));
 // router.route('/resend-activation').post(async (req, res) => Register.resendActivationEmail({ req, res }));
-
-// Clients
-// router.route('/clients').post(JSONWebToken.validate, Auth.isAdmin, async (req, res) => Client.create({ req, res }));
-// router.route('/clients').get(JSONWebToken.validate, Auth.isAdmin, async (req, res) => Client.getAll({ req, res }));
-// router.route('/clients/:client_id').get(JSONWebToken.validate, Auth.isAdmin, async (req, res) => Client.get({ req, res  }));
-// router.route('/clients/:client_id').put(JSONWebToken.validate, Auth.isAdmin, async (req, res) => Client.update({ req, res }));
-
-// Users
-// router.route('/users').post(async (req, res) => User.create({ req, res }));
-// router.route('/users').get(JSONWebToken.validate, Auth.isAdmin, async (req, res) => User.getAll({ req, res }));
-// router.route('/users/:user_id').get(JSONWebToken.validate, Auth.isAdmin || Auth.isAuth, async (req, res) => User.get({ req, res }));
-// router.route('/users/:user_id').put(JSONWebToken.validate, Auth.isAdmin || Auth.isAuth, async (req, res) => User.update({ req, res }));
 
 // Permission
 // router.route('/permissions').post(JSONWebToken.validate, Auth.isAdmin, async (req, res) => Permission.create({ req, res }));

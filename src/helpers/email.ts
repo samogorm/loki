@@ -2,13 +2,7 @@ const nodemailer = require('nodemailer');
 const handlebars = require('nodemailer-express-handlebars');
 
 const sendEmail = async (from: string, to: string, subject: string, template: string, context: object) => {
-  const mailOptions = {
-    from,
-    to,
-    subject,
-    template,
-    context
-  };
+  const mailOptions = { from, to, subject, template, context };
 
   const transporter = await nodemailer.createTransport({
     host: `${process.env.SMTP_HOST}`,

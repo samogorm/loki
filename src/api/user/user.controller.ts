@@ -1,13 +1,12 @@
-import { isAfter, parseISO } from 'date-fns';
+import { isAfter, parseISO, add } from 'date-fns';
 
 import { ClientModel as Client, ClientController } from './../client';
 import { UserModel as User, UserInterface as IUser } from './index';
-import { Encryption, JSONWebToken } from './../../helpers';
+import { Encryption, JSONWebToken, sendEmail } from './../../helpers';
 import Register from './../auth/register.controller';
 import Token from './../token/token.schema';
 import TokenController from './../token/token.controller';
 import LoginSessionController from './../login_session/login_session.controller';
-import TokenModel from '../token/token.model';
 
 const UserController = {
   getById: (id: string) => User.findById(id),
@@ -58,7 +57,45 @@ const UserController = {
     }
 
     return token;
-  }
+  },
+
+  resetPassword: async (email: string, clientId: string) => {
+    const user: any = await User.findOne({ email }).then(user => user);
+    const client: any = await Client.findOne({ _id: clientId }).then(client => client);
+
+    if (user && client) {
+      const token = JSONWebToken.generate(email);
+      const today = new Date();
+      const expiresAt = add(today, { minutes: 90 });
+      const name = user.name.split(' ')[0];
+
+      TokenController.create({ token, client, user, type: 'Reset Password', expiresAt });
+      sendEmail(`${client.name}`, email, 'Reset Password', 'reset_password', {
+        name,
+        token,
+        app: client.name,
+        url: `${client.url}/reset-password/${token}`,
+        website: client.url,
+        logo: client.brand.logo,
+        primary: client.brand.colours.primary,
+        secondary: client.brand.colours.secondary
+      });
+    }
+
+    return user;
+  },
+
+  updatePassword: async (password: string, resetToken: string) => {
+    const now: any =  new Date();
+    const token: any = await Token.findOne({ token: resetToken, type: 'Reset Password' }).then(token => token);
+    const hasTokenExpired = isAfter(parseISO(token.expiresAt), parseISO(now));
+
+    if (hasTokenExpired) {
+      return null;
+    }
+  
+    return await User.findOneAndUpdate({ _id: token?.user._id }, { $set:{ password }}, { new: true }).then(user => user);
+  },
 }
 
 export default UserController;
