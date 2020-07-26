@@ -1,31 +1,12 @@
-import IClient from './client.interface';
-import Client from './client.schema';
+import { ClientModel as Client, ClientInterface as IClient } from './index';
 import { Encryption } from './../../helpers';
 
 const ClientController = {
   create: (data: any) => {
-    const { req, res } = data;
+    const { name, url, secret, grantType, brand } = data;
+    const client = new Client({ name, url, grantType, brand, secret: Encryption.encrypt(secret) });
 
-    const client = new Client(req.body);
-
-    client.secret = Encryption.encrypt(req.body.secret);
-
-    return client.save(function (err: any, client: IClient) {
-      const success = err ? false : true;
-      const result = err ? err : client;
-
-      if (success) {
-        return res.status(201).json({
-          message: 'Successfully created Client.',
-          data: result
-        });
-      }
-
-      return res.status(500).json({
-        message: err,
-        data: null
-      });
-    });
+    return client.save().then(client => client);
   },
 
   get: async (data: any) => {
@@ -106,6 +87,10 @@ const ClientController = {
       message: errorMessage,
       data: null
     });
+  },
+
+  validate: async (client: IClient, secret: any) => {
+    return Encryption.decrypt(secret) === Encryption.decrypt(client.secret);
   }
 }
 

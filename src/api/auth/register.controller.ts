@@ -1,6 +1,6 @@
 import { add } from 'date-fns'; 
 
-import User from './../user/user.schema';
+import { UserModel as User} from './../user';
 import Token from './../token/token.schema';
 import TokenModel from './../token/token.model';
 import UserModel from './../user/user.model';
@@ -51,20 +51,20 @@ const RegisterController = {
     });
   },
 
-  resendActivationEmail: async (data: any) => {
-    const { req, res } = data;
-    const email = req.body.email;
-    const clientId = req.body.clientId;
+  // resendActivationEmail: async (data: any) => {
+  //   const { req, res } = data;
+  //   const email = req.body.email;
+  //   const clientId = req.body.clientId;
 
-    const user = await UserModel.findBy('email', email);
-    const client = await ClientModel.findBy('_id', clientId);
+  //   const user = await UserModel.findBy('email', email);
+  //   const client = await ClientModel.findBy('_id', clientId);
 
-    RegisterController.sendActivationEmail(client, user);
+  //   RegisterController.sendActivationEmail(client, user);
 
-    return res.status(200).json({
-      message: 'Email resent.'
-    });
-  },
+  //   return res.status(200).json({
+  //     message: 'Email resent.'
+  //   });
+  // },
 
   sendActivationEmail: async (client: any, user: any) => {
     const token = JSONWebToken.generate(user.email);

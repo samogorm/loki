@@ -1,48 +1,30 @@
-import { UserModel as User, UserInterface as IUser } from './index';
-import ClientModel from '../client/client.model';
-import Register from './../auth/register.controller';
+import { ClientModel as Client } from './../client';
+import { UserModel as User } from './index';
 import { Encryption } from './../../helpers';
+import Register from './../auth/register.controller';
 
 const UserController = {
-  create: async (data: any) => {
-    const user = new User(data);
-    user.password = Encryption.encrypt(data.password);
-
-    return user.save().then(user => user);
-  },
-
   getById: (id: String) => User.findById(id),
 
   getAll: () => User.find().then(users => users),
 
-  update: async (data: any) => {
-    const { req, res } = data;
-    const userId = req.params.user_id;
+  create: async (data: any) => {
+    const { name, email, password, clientId } = data;
+    const client = await Client.findOne({ _id: clientId }).then(client => client);
+    const user = new User({ name, email, password: Encryption.encrypt(password)});
 
-    let error: boolean = false;
-    let errorMessage: any = null;
+    return user.save().then(user => {
+      Register.sendActivationEmail(client, user);
 
-    const user = await User.findOneAndUpdate({ _id: userId }, req.body, (err: any, doc: any) => {
-      if (err) {
-        error = true;
-        errorMessage = err;
-      }
-
-      return doc;
-    });
-
-    if (!error) {
-      return res.status(200).json({
-        message: 'Successfully updated the User.',
-        data: user
-      });
-    }
-
-    return res.status(500).json({
-      message: errorMessage,
-      data: null
+      return user;
     });
   },
+
+  update: (id: String, name: String, email: String, password: any, active: Boolean, permissions: any) => {
+    const data = { name, email, password: Encryption.encrypt(password), active, permissions };
+
+    return User.findOneAndUpdate({ _id: id }, data, { new: true }).then(user => user)
+  }
 }
 
 export default UserController;

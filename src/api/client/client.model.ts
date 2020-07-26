@@ -1,24 +1,45 @@
-import Client from './client.schema';
+import mongoose, { Schema } from 'mongoose';
 import IClient from './client.interface';
-import { Encryption } from './../../helpers';
 
-const ClientModel = {
-  findBy: async (key: any, value: any) => {
-    let result: any;
-
-    await Client.findOne({ [key]: value })
-      .then(client => result = client)
-      .catch(err => {
-        console.log(err);
-        result = null;
-      });
-
-    return result;
+const ClientModel: Schema = new Schema({
+  name: {
+    type: String,
+    required: true
   },
-
-  validate: async (client: IClient, secret: any) => {
-    return Encryption.decrypt(secret) === Encryption.decrypt(client.secret);
+  url: {
+    type: String,
+    required: true
+  },
+  secret: {
+    type: String,
+    required: true
+  },
+  grantType: {
+    type: String,
+    required: true
+  },
+  brand: {
+    type: Object,
+    default: {
+      logo: null,
+      colours: {
+        primary: '#4834d4',
+        secondary: '#686de0'
+      }
+    }
+  },
+  active: {
+    type: Boolean,
+    default: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
-}
+});
 
-export default ClientModel;
+export default mongoose.model<IClient>('Client', ClientModel);

@@ -5,7 +5,7 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 
-import apolloServer from './../graphql/index';
+import apolloServer from './../apollo/server';
 import router from './../router';
 import RouteMiddleware from './../router/route.middleware';
 
