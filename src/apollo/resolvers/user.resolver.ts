@@ -2,6 +2,10 @@ import UserController from './../../api/user/user.controller';
 
 export const UserResolver = {
   Query: {
+    login: (parent: any, args: any, context: any, info: any) => {
+      const { email, password, clientId, clientSecret } = args;
+      return UserController.login(email, password, { clientId, clientSecret });
+    },
     user: (parent: any, args: any, context: any, info: any) => UserController.getById(args.id),
     users: () => UserController.getAll(),
   },

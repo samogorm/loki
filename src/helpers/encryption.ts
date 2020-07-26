@@ -4,18 +4,18 @@ const algorithm = 'aes-256-cbc';
 const password = `${process.env.ENCRYPTION_PASSWORD}`;
 
 export const Encryption = {
-  encrypt: function (text: string) {
-    const cipher = crypto.createCipher(algorithm, password)
-    let crypted = cipher.update(text, 'utf8', 'hex')
-    crypted += cipher.final('hex');
+  encrypt: (text: string) => {
+    const cipher = crypto.createCipher(algorithm, password);
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
 
-    return crypted;
+    return encrypted;
   },
-  decrypt: function (text: string) {
-    const decipher = crypto.createDecipher(algorithm, password)
-    let dec = decipher.update(text, 'hex', 'utf8')
-    dec += decipher.final('utf8');
+  decrypt: (text: string) => {
+    const decipher = crypto.createDecipher(algorithm, password);
+    let decrypted = decipher.update(text, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
 
-    return dec;
+    return decrypted;
   }
 }

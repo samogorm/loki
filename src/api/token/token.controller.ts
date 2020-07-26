@@ -1,6 +1,7 @@
 import IToken from './token.interface';
 import Token from './token.schema';
 
+
 const TokenController = {
   create: (data: any) => {
     const token = new Token(data);
