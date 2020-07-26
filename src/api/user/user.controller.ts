@@ -1,52 +1,19 @@
-import IUser from './user.interface';
-import User from './user.schema';
-import UserModel from './user.model';
+import { UserModel as User, UserInterface as IUser } from './index';
 import ClientModel from '../client/client.model';
 import Register from './../auth/register.controller';
 import { Encryption } from './../../helpers';
-import { Schema } from 'mongoose';
 
 const UserController = {
   create: async (data: any) => {
-    const { name, email, password } = data;
-
     const user = new User(data);
+    user.password = Encryption.encrypt(data.password);
 
-    user.password = Encryption.encrypt(password);
-    const emailTaken = await UserController.checkEmailExists(email);
-
-    if (emailTaken) {
-      
-    }
-
-    return user.save(function (error: any, user: IUser) {
-      const result = error ? error : user;
-
-      if (error) {
-        return ({
-          message: error,
-          data: null
-        });
-      }
-
-      return ({
-        message: 'Successfully created User.',
-        data: result
-      });
-    });
+    return user.save().then(user => user);
   },
 
-  get: (id: String) => User.findById(id),
+  getById: (id: String) => User.findById(id),
 
   getAll: () => User.find().then(users => users),
-
-  checkEmailExists: (email: string) => {
-    return User.findOne({ email: email }).then(data => data);
-  },
-
-  findBy: (key: any, value: any) => {
-    return User.findOne({ [key]: value }).then(user => user);
-  },
 
   update: async (data: any) => {
     const { req, res } = data;

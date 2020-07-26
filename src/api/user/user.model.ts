@@ -1,26 +1,36 @@
-import User from './user.schema';
+import mongoose, { Schema } from 'mongoose';
+import IUser from './user.interface';
 
-const UserModel = {
-  checkEmailExists: async (email: string) => {
-    let emailTaken;
-    await User.findOne({ email: email })
-      .then(data => emailTaken = data);
-
-    return emailTaken;
+const UserModel: Schema = new Schema({
+  name: {
+    type: String,
+    required: true
   },
-
-  findBy: async (key: any, value: any) => {
-    let result: any;
-
-    await User.findOne({ [key]: value })
-      .then(data => result = data)
-      .catch(err => {
-        console.log(err);
-        result = null;
-      });
-
-    return result;
+  email: {
+    type: String,
+    required: true,
+    unique: true
   },
-}
+  password: {
+    type: String,
+    required: true
+  },
+  permissions: {
+    type: Array,
+    default: [],
+  },
+  active: {
+    type: Boolean,
+    default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
+});
 
-export default UserModel;
+export default mongoose.model<IUser>('User', UserModel);
