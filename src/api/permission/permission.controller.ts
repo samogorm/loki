@@ -29,7 +29,7 @@ const PermissionController = {
     const permissionId = req.params.permission_id;
     let error: boolean = false;
     let errorMessage: any = null;
-    
+
     const permission = await Permission.findById(permissionId)
       .catch(err => {
         error = true;
@@ -54,20 +54,20 @@ const PermissionController = {
     let permissions: any = [];
     let error: boolean = false;
     let errorMessage: any = null;
-  
+
     await Permission.find()
       .then(data => permissions = data)
       .catch(err => {
         error = true;
         errorMessage = err;
       });
-  
+
     if (!error) {
       return res.status(200).json({
         message: 'Successfully retrieved the Permissions.',
         data: permissions
       });
-    } 
+    }
 
     return res.status(500).json({
       message: errorMessage,
@@ -78,7 +78,7 @@ const PermissionController = {
   update: async (data: any) => {
     const { req, res } = data;
     const permissionId = req.params.permission_id;
-  
+
     let error: boolean = false;
     let errorMessage: any = null;
 
@@ -90,7 +90,7 @@ const PermissionController = {
 
       return updatedPermission;
     });
- 
+
     if (!error) {
       return res.status(200).json({
         message: 'Successfully updated the Permission.',

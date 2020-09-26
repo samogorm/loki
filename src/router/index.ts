@@ -9,7 +9,7 @@ import { JSONWebToken } from './../helpers';
 
 const router = express.Router();
 
-router.route('/test').get(async (req, res) => res.send('Success!'));
+router.route('/status').get(async (req, res) => res.send('OK!'));
 
 // Permission
 // router.route('/permissions').post(JSONWebToken.validate, Auth.isAdmin, async (req, res) => Permission.create({ req, res }));

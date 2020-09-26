@@ -16,8 +16,8 @@ A re-usable authentication API that allows a user to submit their email and pass
 5. Copy the environment variables from *.env.example* into *.env*.
 6. Update the environment variables, if needed (current ones are fine for testing).
 7. Run `npm run start:dev`.
-8. Open browser and go to http://localhost:5000/api/v1/test.
-9. If you can see a JSON response message saying "Success!" then you are all up and running.
+8. Open browser and go to http://localhost:5000/api/v1/status.
+9. If you can see a JSON response message saying "OK!" then you are all up and running.
 
 ## Testing Endpoints
 To test the API endpoints, you can import the collection into Postman.

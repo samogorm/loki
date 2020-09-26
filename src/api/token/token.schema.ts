@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import IToken from './token.interface';
 
-const TokenSchema: Schema = new Schema({
+const tokenSchema: Schema = new Schema({
   token: {
     type: String,
     required: true
@@ -32,4 +32,4 @@ const TokenSchema: Schema = new Schema({
   }
 });
 
-export default mongoose.model<IToken>('Token', TokenSchema);
+export default mongoose.model<IToken>('Token', tokenSchema);
