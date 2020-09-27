@@ -26,7 +26,7 @@ class Server {
     mongoose.connect(`${process.env.MONGO_LOCAL_CONN_URL}${process.env.MONGO_DB}` || '', {
       useNewUrlParser: true,
       useUnifiedTopology: true
-    });
+    }).then(() => Promise.resolve());
 
     app.listen(port);
 

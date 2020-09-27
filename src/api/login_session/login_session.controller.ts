@@ -1,51 +1,35 @@
 import LoginSession from './login_session.schema';
 
-const LoginSessionController = {
-  create: async (data: any) => {
+class LoginSessionController {
+  async create(data: any) {
     const loginSession = new LoginSession(data);
 
-    return loginSession.save(function (err: any) {
-      if (err) {
-        return false;
-      }
+    return loginSession.save((err: any) => !err);
+  }
 
-      return true;
-    });
-  },
-
-  get: async (data: any) => {
+  async get(data: any) {
     const { req, res } = data;
     const sessionId = req.params.session_id;
-    let error: boolean = false;
-    let errorMessage: any = null;
+    let error: any = null;
 
     const session = await LoginSession.findById(sessionId)
-      .catch(err => {
-        error = true;
-        errorMessage = err;
-      });
+      .catch(err => error = err);
 
-    if (!error) {
-      return res.status(200).json({
-        message: 'Successfully retrieved the Login Session.',
-        data: session
-      });
+    if (error) {
+      return error;
     }
 
-    return res.status(500).json({
-      message: errorMessage,
-      data: null
-    });
-  },
+    return session;
+  }
 
-  getAll: async (data: any) => {
+  async getAll(data: any) {
     const { res } = data;
     let sessions: any = [];
     let error: boolean = false;
     let errorMessage: any = null;
 
     await LoginSession.find()
-      .then(data => sessions = data)
+      .then(items => sessions = items)
       .catch(err => {
         error = true;
         errorMessage = err;
@@ -62,7 +46,7 @@ const LoginSessionController = {
       message: errorMessage,
       data: null
     });
-  },
-};
+  }
+}
 
 export default LoginSessionController;

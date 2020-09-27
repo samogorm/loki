@@ -16,7 +16,7 @@ const sendEmail = async (from: string, to: string, subject: string, template: st
       rejectUnauthorized: false
     }
   });
-  
+
   await transporter.use('compile', handlebars({
     viewEngine: {
       extName: '.hbs',

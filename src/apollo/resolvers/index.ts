@@ -1,7 +1,7 @@
-import { UserResolver } from './user.resolver';
-import { ClientResolver } from './client.resolver';
+import { userResolver } from './user.resolver';
+import { clientResolver } from './client.resolver';
 
 export {
-  UserResolver,
-  ClientResolver
+  userResolver as UserResolver,
+  clientResolver as ClientResolver
 };

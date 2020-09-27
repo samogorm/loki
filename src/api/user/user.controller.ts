@@ -37,11 +37,11 @@ const UserController = {
     const passwordMatch = Encryption.decrypt(password) === Encryption.decrypt(user.password);
     const isClientValidated = client ? ClientController.validate(client, req.clientSecret) : false;
     let token: any = null;
-  
+
     if (passwordMatch && isClientValidated) {
       const now: any =  new Date();
-      token = await Token.findOne({ user: user, type: 'Login' }, {}, { sort: { 'created_at': 0 } }).then((token: any) => token);
-      const hasTokenExpired = isAfter(parseISO(token.expiresAt), parseISO(now));
+      token = await Token.findOne({ user, type: 'Login' }, {}, { sort: { 'created_at': 0 } }).then((item: any) => item);
+      const hasTokenExpired = token ? isAfter(parseISO(token?.expiresAt), parseISO(now)) : true;
 
       if (hasTokenExpired) {
         token = JSONWebToken.generate(user.email);
@@ -52,7 +52,8 @@ const UserController = {
       }
 
       const loginSession = { type: 'Login', user, client, token };
-      LoginSessionController.create(loginSession);
+      const loginSessionController = new LoginSessionController();
+      loginSessionController.create(loginSession);
     }
 
     return token;
@@ -106,7 +107,7 @@ const UserController = {
 
     sendEmail(`${client.name}`, user.email, 'Activate Your Account', 'activate_account', { 
       name,
-      token, 
+      token,
       app: client.name, 
       url: `${client.url}/activate-account/${token}`,
       website: client.url,
