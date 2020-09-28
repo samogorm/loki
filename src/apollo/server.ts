@@ -1,4 +1,5 @@
 import { ApolloServer } from 'apollo-server-express';
+const { applyMiddleware } = require('graphql-middleware');
 
 import { Mutation, Query } from './types';
 import { UserSchema, ClientSchema, TokenSchema } from './schemas';
@@ -13,7 +14,13 @@ const apolloServer = () => {
  
   const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: ({ req }) => {
+      console.log(req)
+      return {
+        req,
+      };
+    },
   });
 
   return server;

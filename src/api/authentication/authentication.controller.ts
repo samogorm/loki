@@ -102,6 +102,18 @@ class AuthenticationController {
 
     return await User.findOneAndUpdate({ _id: token?.user._id }, { $set:{ active: true } }).then(user => user)
   }
+
+  async updatePassword(password: string, resetToken: string) {
+    const now: any =  new Date();
+    const token: any = await Token.findOne({ token: resetToken, type: 'Reset Password' }).then(token => token);
+    const hasTokenExpired = isAfter(parseISO(token.expiresAt), parseISO(now));
+
+    if (hasTokenExpired) {
+      return null;
+    }
+  
+    return await User.findOneAndUpdate({ _id: token?.user._id }, { $set:{ password }}, { new: true }).then(user => user);
+  }
 }
 
 export default AuthenticationController;

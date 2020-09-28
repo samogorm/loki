@@ -1,4 +1,5 @@
 import express from 'express';
+
 class RouteMiddleware {
   logRoute = (request: express.Request, response: express.Response, next: Function) => {
     console.log('REQUEST: ');
@@ -6,7 +7,7 @@ class RouteMiddleware {
     console.log(`Status Code: ${response.statusCode}`);
 
     next();
-  };
+  }
 }
 
 export default RouteMiddleware;

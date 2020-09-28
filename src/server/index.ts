@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
+import AuthenticationMiddleware from '../middleware/authentication.middleware';
 
 import apolloServer from './../apollo/server';
 import router from './../router';
@@ -15,8 +16,10 @@ class Server {
   public start = (port: any) => {
     const app = express();
     const routeMiddleware = new RouteMiddleware();
+    const authMiddleware = new AuthenticationMiddleware();
     const server = apolloServer();
 
+    app.use(authMiddleware.isAuthenticated);
     server.applyMiddleware({ app })
     app.use(cors());
     app.use(routeMiddleware.logRoute);
