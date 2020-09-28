@@ -1,23 +1,29 @@
-import { UserController }from './../../api/user';
+import { UserController } from '../../api/user';
+import { AuthenticationController } from '../../api/authentication'
 
 export const userResolver = {
   Query: {
     login: (parent: any, args: any, context: any, info: any) => {
       const { email, password, clientId, clientSecret } = args;
-      return UserController.login(email, password, { clientId, clientSecret });
+      const authController = new AuthenticationController();
+
+      return authController.login(email, password, { clientId, clientSecret });
     },
     resetPassword: (parent: any, args: any, context: any, info: any) => {
-      UserController.resetPassword(args.email, args.clientId);
+      const authController = new AuthenticationController();
+      authController.resetPassword(args.email, args.clientId);
     },
     user: (parent: any, args: any, context: any, info: any) => UserController.getById(args.id),
     users: () => UserController.getAll(),
     sendActivationEmail: (parent: any, args: any, context: any, info: any) => {
-      UserController.resendActivationEmail(args.email, args.clientId);
+      const authController = new AuthenticationController();
+      authController.resendActivationEmail(args.email, args.clientId);
     },
   },
   Mutation: {
     activateUser: (parent: any, args: any, context: any, info: any) => {
-      UserController.activate(args.activateToken);
+      const authController = new AuthenticationController();
+      authController.activate(args.activateToken);
     },
     createUser: (parent: any, args: any, context: any, info: any) => UserController.create(args),
     updateUser: (parent: any, args: any, context: any, info: any) => {
