@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-const algorithm = 'aes-256-cbc';
+const algorithm = `${process.env.ENCRYPTION_ALGORITHM}`;
 const password = `${process.env.ENCRYPTION_PASSWORD}`;
 
 export const Encryption = {
