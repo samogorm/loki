@@ -1,5 +1,5 @@
 import { ClientModel as Client } from './../client';
-import { UserModel as User, UserInterface as IUser } from './index';
+import { UserModel as User } from './index';
 import { Encryption } from './../../helpers';
 import { AuthenticationController } from '../authentication';
 

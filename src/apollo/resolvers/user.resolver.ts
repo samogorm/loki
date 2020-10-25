@@ -2,14 +2,6 @@ import { UserController } from '../../api/user';
 import { AuthenticationController } from '../../api/authentication';
 import AuthenticationMiddleware from '../../middleware/authentication.middleware';
 
-// Todo:
-// 1. Check the user is active: DONE
-// 2. Check the user is authorized to use the requested client: DONE
-// 3. Check that the user is only requesting their own stuff.
-
-// Future:
-// 1. Only Super-Admins, can view everything.
-
 export const userResolver = {
   Query: {
     login: (parent: any, args: any, context: any, info: any) => {
@@ -30,6 +22,8 @@ export const userResolver = {
         const userController = new UserController();
         return userController.getById(args.id);
       }
+
+      return null;
     },
     users: (parent: any, args: any, context: any, info: any) => {
       const userController = new UserController();
@@ -60,6 +54,8 @@ export const userResolver = {
       if (isAuthorized) {
         return userController.update(id, name, email, password, active, permissions);
       }
+
+      return null;
     },
     updateUserPassword: (parent: any, args: any, context: any, info: any) => {
       const authController = new AuthenticationController();

@@ -16,7 +16,6 @@ const apolloServer = () => {
     typeDefs,
     resolvers,
     context: ({ req }) => {
-      console.log(req)
       return {
         req,
       };

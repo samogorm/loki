@@ -2,9 +2,11 @@ require('dotenv').config();
 
 import express from 'express';
 import  { tokenSchema as Token } from '../api/token';
+import { UserModel as User } from '../api/user';
+import { ClientModel as Client } from '../api/client';
 
 class AuthenticationMiddleware {
-  isAuthenticated = (request: express.Request, response: express.Response, next: Function) => {
+  isAuthenticated = async (request: express.Request, response: express.Response, next: Function) => {
     const unauthorizedMessage = {
       error: `Unauthorized`,
       status: 401
@@ -24,20 +26,16 @@ class AuthenticationMiddleware {
     if (authorizationHeader) {
       const authToken = authorizationHeader.split(' ')[1];
       
-      Token.find({ token: authToken })
-        .then((token: any) => {
-          const { active } = token[0].user; // TODO: find the user object and check active there.
-          const { url } = token[0].client; // TODO: find the client object and check the url there.
-          const hasAccessToClient = url === referer;
-      
-          if (!active || (!hasAccessToClient && !bypassReferer)) {
-            response.status(401).send(unauthorizedMessage);
-          }
+      const token: any = await Token.find({ token: authToken }).then((item: any) => item);
+      const user: any = await User.findById(token[0].user._id.toString());
+      const client: any = await Client.findById(token[0].client._id.toString());
+      const hasAccessToClient = client.url === referer;
 
-          next();
-        }).catch((err: any) => {
-          response.send(err);
-        });
+      if (!user.active || (!hasAccessToClient && !bypassReferer)) {
+        response.status(401).send(unauthorizedMessage);
+      } else {
+        next();
+      }
     } else {
       response.status(401).send(unauthorizedMessage);
     }
@@ -51,8 +49,7 @@ class AuthenticationMiddleware {
       const authToken = authorizationHeader.split(' ')[1];
 
       result = await Token.find({ token: authToken })
-        .then((token: any) => token[0].user._id.toString() === id)
-        .catch((err: any) => false);
+        .then((token: any) => token[0].user._id.toString() === id);
     } else {
       result = false;
     }

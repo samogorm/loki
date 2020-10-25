@@ -7,12 +7,18 @@ import { ClientModel as Client, ClientController } from './../client';
 import LoginSessionController from '../login_session/login_session.controller';
 
 class AuthenticationController {
+  #clientController: any;
+
+  constructor() {
+    this.#clientController = new ClientController();
+  }
+
   async login(email: string, password: string, req: any) {
     const user: any = await User.findOne({ email }).then(user => user);
     const client: any = await Client.findOne({ _id: req.clientId }).then(client => client);
 
     const passwordMatch = Encryption.decrypt(password) === Encryption.decrypt(user.password);
-    const isClientValidated = client ? ClientController.validate(client, req.clientSecret) : false;
+    const isClientValidated = client ? this.#clientController.validate(client, req.clientSecret) : false;
     let token: any = null;
 
     if (passwordMatch && isClientValidated) {
