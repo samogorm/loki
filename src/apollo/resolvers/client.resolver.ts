@@ -9,7 +9,6 @@ export const clientResolver = {
   },
   Mutation: {
     createClient: (parent: any, args: any, context: any, info: any) => {
-      console.log('here');
       return clientController.create(args);
     },
     updateClient: (parent: any, args: any, context: any, info: any) => {
