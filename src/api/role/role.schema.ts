@@ -1,27 +1,23 @@
 import mongoose, { Schema } from 'mongoose';
-import IUser from './user.interface';
+import IRole from './role.interface';
 
-const UserModel: Schema = new Schema({
-  name: {
+const RoleSchema: Schema = new Schema({
+  title: {
     type: String,
     required: true
   },
-  email: {
+  uniqueId: {
     type: String,
     required: true,
     unique: true
   },
-  password: {
+  description: {
     type: String,
     required: true
   },
-  role: {
-    type: String,
-    default: 'USER',
-  },
   active: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   createdAt: {
     type: Date,
@@ -33,4 +29,4 @@ const UserModel: Schema = new Schema({
   }
 });
 
-export default mongoose.model<IUser>('User', UserModel);
+export default mongoose.model<IRole>('Role', RoleSchema);

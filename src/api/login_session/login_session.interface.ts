@@ -5,8 +5,8 @@ interface ILoginSession extends Document {
   user: object;
   token: object;
   client: object;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export default ILoginSession;

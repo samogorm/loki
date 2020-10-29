@@ -1,4 +1,4 @@
-import { ClientModel as Client, ClientInterface as IClient } from './index';
+import { ClientModel as Client, IClient } from './index';
 import { Encryption } from './../../helpers';
 
 class ClientController {

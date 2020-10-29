@@ -1,4 +1,4 @@
-import LoginSession from './login_session.schema';
+import { LoginSession } from './';
 
 class LoginSessionController {
   async create(data: any) {

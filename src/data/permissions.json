@@ -1,0 +1,17 @@
+{
+  "data": [
+    "LOGIN",
+    "CREATE_USER",
+    "READ_USER",
+    "UPDATE_USER",
+    "DELETE_USER",
+    "CREATE_CLIENT",
+    "READ_CLIENT",
+    "UPDATE_CLIENT",
+    "DELETE_CLIENT",
+    "CREATE_ROLE",
+    "READ_ROLE",
+    "UPDATE_ROLE",
+    "DELETE_ROLE"
+  ]
+}

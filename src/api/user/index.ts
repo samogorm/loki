@@ -1,9 +1,9 @@
 import UserController from './user.controller';
-import UserInterface from './user.interface';
+import IUser from './user.interface';
 import UserModel from './user.model';
 
 export {
   UserController,
-  UserInterface,
+  IUser,
   UserModel
 };
